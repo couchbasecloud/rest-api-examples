@@ -17,7 +17,7 @@ from cbcAPI import cbc_api_get, cbc_api_put, cbc_api_del
 __author__ = 'Jonathan Giffard'
 __copyright__ = 'Copyright 2021, Couchbase'
 __credits__ = ['Jonathan Giffard']
-__license__ = 'GPL 3.0'
+__license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = 'Jonathan Giffard'
 __email__ = 'jonathan.giffard@couchbase.com'
