@@ -1,0 +1,6 @@
+requests~=2.25.1
+DateTime~=4.1.1
+texttable~=1.6.3
+maya~=0.6.1
+
+
