@@ -4,6 +4,7 @@
 import requests
 import json
 import os
+from requests.structures import CaseInsensitiveDict
 
 
 # Other Libs
@@ -11,13 +12,13 @@ import os
 
 
 # Owned
-from cbcAPIAuth import CbcAPIAuth
+from .cbc_api_auth import CbcAPIAuth
 
 __author__ = 'Jonathan Giffard'
 __copyright__ = 'Copyright 2021, Couchbase'
 __credits__ = ['Jonathan Giffard']
-__license__ = 'MIT'
-__version__ = '0.1.0'
+__license__ = 'GPL 3.0'
+__version__ = '0.2.0'
 __maintainer__ = 'Jonathan Giffard'
 __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
@@ -41,8 +42,11 @@ def _cbc_api_get_environ():
 
     api_access_info = None
 
+    api_access_info_values = None
+
+
     # Read the values from the environmental variables
-    api_access_info_values  = {'access_key': os.environ.get('cbc_access_key'),
+    api_access_info_values = {'access_key': os.environ.get('cbc_access_key'),
                        'secret_key': os.environ.get('cbc_secret_key'),
                        'api_base_url': os.environ.get('cbc_base_url')
                        }
@@ -65,6 +69,7 @@ def _cbc_api_get_environ():
 
 
 def cbc_api_get(api_endpoint):
+    api_access_values = None
 
     api_access_values = _cbc_api_get_environ()
 
@@ -78,16 +83,16 @@ def cbc_api_get(api_endpoint):
     return cbc_api_checked_response
 
 
-def cbc_api_put(api_endpoint, request_body):
+def cbc_api_post(api_endpoint, request_body):
 
     cbc_api_checked_response = None
 
     api_access_values = _cbc_api_get_environ()
 
     if api_access_values is not None:
-        cbc_api_put_response = requests.post(api_access_values['api_base_url'] + api_endpoint, json=request_body, auth=CbcAPIAuth(api_access_values['access_key'], api_access_values['secret_key']))
+        cbc_api_post_response = requests.post(api_access_values['api_base_url'] + api_endpoint, json=request_body, auth=CbcAPIAuth(api_access_values['access_key'], api_access_values['secret_key']))
 
-        cbc_api_checked_response = _check_response(cbc_api_put_response)
+        cbc_api_checked_response = _check_response(cbc_api_post_response)
 
     return cbc_api_checked_response
 
@@ -108,7 +113,7 @@ def cbc_api_del(api_endpoint):
 
 
 def _check_response(response):
-
+    # responseHTTPInfo allows the caller to take action on the http 
     api_response = {'responseContent': {},
                     'responseHTTPInfo': {
                         'httpStatus': '',
@@ -121,37 +126,45 @@ def _check_response(response):
 
     api_response['responseHTTPInfo']['httpStatus'] = response.status_code
 
+    api_response['responseContent'] = None
+
+    # Do we have JSON response ?
+    if response.headers['content-type'] == 'application/json':
+        # Is there anything in it?
+        # We use response.text as this is a string
+        # response.content is in bytes which we use for json.loads
+        if len(response.text) > 0 :
+            api_response['responseContent'] = json.loads(response.content)
+
     if response.status_code >= 500:
         print('[!] [{0}] Server Error'.format(response.status_code))
-        http_message = '[!] [{0}] Server Error'
-        api_response['responseStatus'] = None
+        http_message = 'Server Error '  + str(response.status_code)
     elif response.status_code == 404:
         print('[!] [{0}] URL not found: [{1}]'.format(response.status_code))
-        http_message = '[!] [{0}] URL not found: [{1}] '
-        api_response['responseStatus'] = None
+        http_message = 'URL not found: ' + str(response.status_code)
     elif response.status_code == 401:
         print('[!] [{0}] Authentication Failed'.format(response.status_code))
-        http_message = '[!] [{0}] Authentication Failed'
-        api_response['responseStatus'] = None
+        http_message = 'Authentication Failed ' + str(response.status_code)
     elif response.status_code >= 400:
         print('[!] [{0}] Bad Request'.format(response.status_code))
-        http_message = '[!] [{0}] Bad Request'
-        api_response['responseStatus'] = None
-        print(response.content)
+        http_message = 'Bad Request ' + str(response.status_code)
     elif response.status_code >= 300:
         print('[!] [{0}] Unexpected redirect.'.format(response.status_code))
-        http_message = '[!] [{0}] Bad Request'
-        api_response['responseStatus'] = None
+        http_message = 'Unexpected redirect ' + str(response.status_code)
     elif response.status_code == 200:
-        api_response['responseContent'] = json.loads(response.content)
         http_message = 'Success'
+    elif response.status_code == 201:
+        # We may have a Location field that indicates where to check
+        # the status of the resource
+        if response.headers.get('location') is not None:
+            http_message = 'Success. Resource status can be checked here:- ' + response.headers.get('location')
+        else:
+            http_message = 'Success'
     elif response.status_code == 204:
-        api_response['responseContent'] = json.loads(response.content)
         http_message = 'Success'
     else:
         print('[?] Unexpected Error: [HTTP {0}]: Content: {1}'.format(response.status_code, response.content))
-        http_message = '[?] Unexpected Error: [HTTP {0}]: Content: {1}'
-        api_response['responseStatus'] = None
+        http_message = 'Unexpected Error: ' + str(response.status_code)
 
     api_response['responseHTTPInfo']['httpMessage'] = http_message
 
