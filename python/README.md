@@ -12,15 +12,15 @@ The following pieces need to be in place
 
 
 ## Running 
-You will need to download the samples. To do this, either download [the archive](https://github.com/couchbaselabs/cloud_public_api_sample) or clone the repository:
+You will need to download the samples. To do this, either download [the archive](https://github.com/couchbasecloud/rest-api-examples.git) or clone the repository:
 
 ```
-$ git clone https://github.com/couchbaselabs/cloud_public_api_sample
+$ git clone https://github.com/couchbasecloud/rest-api-examples.git
 ```
 
 change directory
 ```
-$ cloud_public_api_sample
+$ cd rest-api-examples/python
 ```
 
 
