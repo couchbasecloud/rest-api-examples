@@ -7,9 +7,8 @@ To use any of these samples, follow the instructions below
 ## Prerequisites
 The following pieces need to be in place
 
-* Admission into the Restricted Beta
-* Access and Secret Keys for authentication to the API
-* Python 3.0 or greater
+* Created Access and Secret Keys for the API
+* Python 3.8 or greater
 
 
 ## Running 
