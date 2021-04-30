@@ -14,10 +14,10 @@ __author__ = 'Jonathan Giffard'
 __copyright__ = 'Copyright 2021, Couchbase'
 __credits__ = ['Jonathan Giffard']
 __license__ = 'MIT License'
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 __maintainer__ = 'Jonathan Giffard'
 __email__ = 'jonathan.giffard@couchbase.com'
-__status__ = 'Dev'
+__status__ = 'Sample'
 
 
 def _pretty_table(table_heading, table_rows):
