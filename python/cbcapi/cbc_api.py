@@ -18,7 +18,7 @@ __author__ = 'Jonathan Giffard'
 __copyright__ = 'Copyright 2021, Couchbase'
 __credits__ = ['Jonathan Giffard']
 __license__ = 'GPL 3.0'
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 __maintainer__ = 'Jonathan Giffard'
 __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
@@ -154,6 +154,13 @@ def _check_response(response):
     elif response.status_code == 200:
         http_message = 'Success'
     elif response.status_code == 201:
+        # We may have a Location field that indicates where to check
+        # the status of the resource
+        if response.headers.get('location') is not None:
+            http_message = 'Success. Resource status can be checked here:- ' + response.headers.get('location')
+        else:
+            http_message = 'Success'
+    elif response.status_code == 202:
         # We may have a Location field that indicates where to check
         # the status of the resource
         if response.headers.get('location') is not None:
