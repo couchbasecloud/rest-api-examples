@@ -80,13 +80,12 @@ def create_cluster(cloud_id, project_id, cluster_name):
 
     create_cluster_response = cbc_api_post('/v2/clusters', cluster_configuration)
 
-    if create_cluster_response['responseHTTPInfo']['httpStatus'] == 201:
+    if create_cluster_response['responseHTTPInfo']['httpStatus'] == 202:
         # This is the good path, the cluster is being created
         print(create_cluster_response['responseHTTPInfo']['httpMessage'])
     else:
         # Something went wrong.  Print out the messages
         print('Cluster creation failed')
-        print(create_cluster_response['responseContent']['message'])
 
     return
 
