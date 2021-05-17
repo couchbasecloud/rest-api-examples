@@ -65,7 +65,7 @@ def get_clusters_from_api():
         # Did we get a list ?
         if list_of_clusters is not None:
             # Are there any clusters ?
-            if list_of_clusters['cursor']['pages']['totalItems'] > 1:
+            if list_of_clusters['cursor']['pages']['totalItems'] > 0:
                 # Yes, so we loop around them building up the rows for the table
                 for cluster in list_of_clusters['data']:
                     # Builds up a row to display in a table
