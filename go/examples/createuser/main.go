@@ -9,14 +9,15 @@ import (
 )
 
 type UserCreatePayload struct {
-	Username string             `json:"username"`
-	Password string             `json:"password"`
-	Access   []UserCreateAccess `json:"access"`
+	Username string             `json:"username,omitempty"`
+	Password string             `json:"password,omitempty"`
+	AllBucketsAccess string `json:"allBucketsAccess,omitempty"`
+	Buckets   []UserCreateAccess `json:"buckets,omitempty"`
 }
 
 type UserCreateAccess struct {
-	Name  string   `json:"name"`
-	Roles []string `json:"roles"`
+	Name  string   `json:"bucketName"`
+	Roles []string `json:"bucketAccess"`
 }
 
 func main() {
@@ -26,18 +27,29 @@ func main() {
 
 	c := utils.NewClient()
 
-	payload := UserCreatePayload{
+	perBucket := UserCreatePayload{
 		Username: os.Args[2],
 		Password: os.Args[3],
-		Access: []UserCreateAccess{
+		Buckets: []UserCreateAccess{
 			{
-				Name:  os.Args[4],
-				Roles: []string{"data_writer", "data_reader"},
+				Name: os.Args[4],
+				Roles: []string{"data_writer"},
 			},
 		},
 	}
 
-	resp, err := c.Do(http.MethodPost, "/v2/clusters/"+os.Args[1]+"/users", payload)
+	resp, err := c.Do(http.MethodPost, "/v2/clusters/"+os.Args[1]+"/users", perBucket)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_ = utils.PrettyPrint(resp)
+
+	allBucket := UserCreatePayload{
+		AllBucketsAccess: "data_reader",
+	}
+
+	resp, err = c.Do(http.MethodPost, "/v2/clusters/"+os.Args[1]+"/users/"+os.Args[2], allBucket)
 	if err != nil {
 		log.Fatal(err)
 	}
