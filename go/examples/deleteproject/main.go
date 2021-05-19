@@ -1,13 +1,12 @@
 package main
 
 import (
-"log"
-"net/http"
-"os"
+	"log"
+	"net/http"
+	"os"
 
-"github.com/couchbasecloud/rest-api-examples/go/utils"
+	"github.com/couchbasecloud/rest-api-examples/go/utils"
 )
-
 
 func main() {
 	if len(os.Args) != 2 {
@@ -23,4 +22,3 @@ func main() {
 
 	_ = utils.PrettyPrint(resp)
 }
-

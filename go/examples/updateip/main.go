@@ -1,11 +1,11 @@
 package main
 
 import (
-"log"
-"net/http"
-"os"
+	"log"
+	"net/http"
+	"os"
 
-"github.com/couchbasecloud/rest-api-examples/go/utils"
+	"github.com/couchbasecloud/rest-api-examples/go/utils"
 )
 
 type AllowListRequest struct {
@@ -23,9 +23,9 @@ func main() {
 
 	payload := []AllowListRequest{
 		{
-		CIDR:     os.Args[2],
-		RuleType: "temporary",
-		Duration: "165h0m0s",
+			CIDR:     os.Args[2],
+			RuleType: "temporary",
+			Duration: "165h0m0s",
 		},
 	}
 
@@ -36,4 +36,3 @@ func main() {
 
 	_ = utils.PrettyPrint(resp)
 }
-

@@ -1,11 +1,11 @@
 package main
 
 import (
-"log"
-"net/http"
-"os"
+	"log"
+	"net/http"
+	"os"
 
-"github.com/couchbasecloud/rest-api-examples/go/utils"
+	"github.com/couchbasecloud/rest-api-examples/go/utils"
 )
 
 type BucketCreatePayload struct {
@@ -22,11 +22,11 @@ func main() {
 
 	payload := []BucketCreatePayload{
 		{
-			Name: os.Args[2],
+			Name:        os.Args[2],
 			MemoryQuota: 128,
 		},
 		{
-			Name: os.Args[3],
+			Name:        os.Args[3],
 			MemoryQuota: 256,
 		},
 	}

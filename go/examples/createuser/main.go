@@ -9,10 +9,10 @@ import (
 )
 
 type UserCreatePayload struct {
-	Username string             `json:"username,omitempty"`
-	Password string             `json:"password,omitempty"`
-	AllBucketsAccess string `json:"allBucketsAccess,omitempty"`
-	Buckets   []UserCreateAccess `json:"buckets,omitempty"`
+	Username         string             `json:"username,omitempty"`
+	Password         string             `json:"password,omitempty"`
+	AllBucketsAccess string             `json:"allBucketsAccess,omitempty"`
+	Buckets          []UserCreateAccess `json:"buckets,omitempty"`
 }
 
 type UserCreateAccess struct {
@@ -32,7 +32,7 @@ func main() {
 		Password: os.Args[3],
 		Buckets: []UserCreateAccess{
 			{
-				Name: os.Args[4],
+				Name:  os.Args[4],
 				Roles: []string{"data_writer"},
 			},
 		},
