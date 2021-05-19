@@ -3,7 +3,7 @@ Creates a new cluster to the configuration specified in the Python script
 
 Usage
 
-python creatCluster.py -cid/--cloudID, -pid/--projectID, -cn/--clusterName
+python createCluster.py -cid/--cloudID, -pid/--projectID, -cn/--clusterName
 
 Requires a cloudID, projectID and name for the cluster.   
 
