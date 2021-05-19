@@ -13,7 +13,7 @@ Clusters
 -------------------------------------
 ```
 
-No clusters gives an emptry table
+No clusters gives an empty table
 ```
 Clusters
 -------------------------------------
