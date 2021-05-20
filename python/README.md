@@ -7,21 +7,20 @@ To use any of these samples, follow the instructions below
 ## Prerequisites
 The following pieces need to be in place
 
-* Admission into the Restricted Beta
-* Access and Secret Keys for authentication to the API
-* Python 3.0 or greater
+* Created Access and Secret Keys for the API
+* Python 3.8 or greater
 
 
 ## Running 
-You will need to download the samples. To do this, either download [the archive](https://github.com/couchbaselabs/cloud_public_api_sample) or clone the repository:
+You will need to download the samples. To do this, either download [the archive](https://github.com/couchbasecloud/rest-api-examples.git) or clone the repository:
 
 ```
-$ git clone https://github.com/couchbaselabs/cloud_public_api_sample
+$ git clone https://github.com/couchbasecloud/rest-api-examples.git
 ```
 
 change directory
 ```
-$ cloud_public_api_sample
+$ cd rest-api-examples/python
 ```
 
 
