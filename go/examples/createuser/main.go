@@ -38,7 +38,7 @@ func main() {
 		},
 	}
 
-	resp, err := c.Do(http.MethodPost, "/v2/clusters/"+os.Args[1]+"/users", perBucket)
+	resp, err := c.Do(http.MethodPut, "/v2/clusters/"+os.Args[1]+"/users", perBucket)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -49,7 +49,7 @@ func main() {
 		AllBucketsAccess: "data_reader",
 	}
 
-	resp, err = c.Do(http.MethodPost, "/v2/clusters/"+os.Args[1]+"/users/"+os.Args[2], allBucket)
+	resp, err = c.Do(http.MethodPut, "/v2/clusters/"+os.Args[1]+"/users/"+os.Args[2], allBucket)
 	if err != nil {
 		log.Fatal(err)
 	}
