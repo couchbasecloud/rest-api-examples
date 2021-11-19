@@ -118,7 +118,7 @@ class CapellaAPI(CapellaAPIRequests):
         return (capella_api_response)
 
 
-    def modify_cluster_servers(self, cluster_id, new_cluster_server_configuration):
+    def update_cluster_servers(self, cluster_id, new_cluster_server_configuration):
         capella_api_response = self.capella_api_put('/v3/clusters' + '/' + cluster_id + '/servers', new_cluster_server_configuration)
 
         return (capella_api_response)
