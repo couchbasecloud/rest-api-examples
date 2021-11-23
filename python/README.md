@@ -13,27 +13,32 @@ The following pieces need to be in place before you try the samples :-
 You will need to download the samples. To do this, either download [the archive](https://github.com/couchbasecloud/rest-api-examples.git) or clone the repository:
 
 ```
-$ git clone https://github.com/couchbasecloud/rest-api-examples.git
+git clone https://github.com/couchbasecloud/rest-api-examples.git
 ```
 
 change directory
 ```
-$ cd rest-api-examples/python
+cd rest-api-examples/python
 ```
 
 
 There are several Python libraries that will need to be installed and these are listed in _requirements.txt_.  They can be automatically loaded using the _pip_ command:
 ```
-$ pip install -r requirements.txt
+pip install -r requirements.txt
+```
+
+Depending on how you have Python installed, you may need to call pip for Python3 like this
+```
+pip3 install -r requirements.txt
 ```
 
 Next, set the environment variables for the base URL for Cloud API , access and secret keys.
 replace <> by your values for secret and access keys.
 
 ```
-$ export cbc_base_url='https://cloudapi.cloud.couchbase.com'
-$ export cbc_secret_key='<>'
-$ export cbc_access_key='<>'
+export cbc_base_url='https://cloudapi.cloud.couchbase.com'
+export cbc_secret_key='<>'
+export cbc_access_key='<>'
 ```
 
 If you don't want use environment variables, you can store these in a file. 
@@ -61,7 +66,7 @@ os.environ['cbc_secret_key'] = ' '
 Launch a sample by running python with the relevant file e.g
  
 ```
-$ python getClouds.py
+python getClouds.py
 2021-10-29 10:58:20,408 - capellaAPI.CapellaAPI - INFO - /v2/status
 2021-10-29 10:58:20,777 - capellaAPI.CapellaAPI - INFO - /v2/clouds?perPage=100
 Clouds

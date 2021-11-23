@@ -45,12 +45,12 @@ def main(CmdlineArgs):
 
     #Check Capella API status
     if cappella_api.api_status().status_code == 200:
-        capella_api_response = cappella_api.create_cluster_user(CmdlineArgs.ClusterID, cluster_allowlist_configuration)
+        capella_api_response = cappella_api.create_cluster_allowlist(CmdlineArgs.ClusterID, cluster_allowlist_configuration)
 
         if capella_api_response.status_code == 202:
             print("Allow list is being created")
         else:
-            print("Failed to get allowlist " )
+            print("Failed to create allowlist " )
             print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])

@@ -128,19 +128,25 @@ if __name__ == '__main__':
                            help="The ID of the cluster ")
 
     my_parser.add_argument('-un', '--UserName',
+                           dest="UserName",
                            action='store',
                            required=True,
+                           metavar="",
                            type=str,
                            help='Username to create')
 
     my_parser.add_argument('-pwd', '--Password',
+                           dest="Password",
                            action='store',
+                           metavar="",
                            type=str,
                            required=True,
                            help='Password for the user')
 
     my_parser.add_argument('-b', '--Buckets',
+                           dest="Buckets",
                            action='store',
+                           metavar="",
                            type=bucket_access_type,
                            required=True,
                            help='List of buckets and access for each.\n  Format: <bucket name>:<bucket access>  Bucket access can be r,w or rw')

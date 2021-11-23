@@ -58,10 +58,12 @@ if __name__ == '__main__':
 
     # Add the arguments
 
-    my_parser.add_argument('-n', '--projectName',
+    my_parser.add_argument('-pn', '--projectName',
+                           dest='projectName',
                            action='store',
                            required=True,
                            type=str,
+                           metavar="",
                            help='Name of the project to create')
 
     my_parser.add_argument("-d", "--debug",
