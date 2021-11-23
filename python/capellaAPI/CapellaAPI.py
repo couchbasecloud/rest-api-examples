@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # Generic/Built-in
-import json
 import logging
 
 # Other Libs
@@ -67,14 +66,6 @@ class CapellaAPI(CapellaAPIRequests):
 
 
     # Cluster methods
-    def _g1_g2_cluster(self, cluster_id):
-        # Works out if a cluster is g1 ( Kubernetes based ) or g2 architectures
-        # which allows the calling function to use the correct route
-        # as some operations are v2 and others v3
-        # TO DO in the future
-        pass
-
-
     def get_clusters(self):
         capella_api_response = self.capella_api_get('/v2/clusters')
 

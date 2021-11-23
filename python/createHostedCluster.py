@@ -82,8 +82,8 @@ def main(CmdLineArgs):
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
-    my_parser = MyParser(description='Creates a cluster using Couchbase managed cloud in Couchbase Capella')
-    my_parser.ExampleCmdline = """-cn "aNewCluster" -pid "1478c0f4-07b2-4818-a5e8-d15703ef79b0" """
+    my_parser = MyParser(description='Creates a 3 node cluster using Couchbase managed cloud in Couchbase Capella\n with data", index, search, and query services and 50Gb of storage\n in aws us-east-2')
+    my_parser.ExampleCmdline = "-cn aNewCluster -pid 1478c0f4-07b2-4818-a5e8-d15703ef79b0 "
 
     # Add the arguments
 

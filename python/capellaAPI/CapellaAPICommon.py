@@ -87,6 +87,7 @@ def check_if_valid_uuid(uuid):
 
     # if result = false, then it didn't meet the requirement
     # throw our custom exception
+
     if not result:
         raise InvalidUuidError(uuid + " does not match the format for an unique identifier.  ")
     else:

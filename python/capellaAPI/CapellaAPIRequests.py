@@ -13,7 +13,7 @@ import pprint
 
 # Owned
 from capellaAPI.CapellaAPIAuth import CapellaAPIAuth
-from capellaAPI.CapellaExceptions import *
+from capellaAPI.CapellaExceptions import MissingBaseURLError, MissingAccessKeyError, MissingSecretKeyError
 
 # EnvVars.py sets the environmental variables used here
 # If EnvVars.py does not exist, then we'll try the OS environment variables instead
@@ -46,10 +46,12 @@ class CapellaAPIRequests():
 
         """
         # Read the values from the environmental variables
+
         if os.environ.get('api_base_url') is None:
-            raise MissingBaseURLError
+            raise MissingBaseURLError('Environmental variable api_base_url has not been set')
         else:
             self.api_base_url = os.environ.get('api_base_url')
+
 
         self._log = logging.getLogger(__name__)
 

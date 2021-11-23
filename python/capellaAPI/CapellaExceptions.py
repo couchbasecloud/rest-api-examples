@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 # Generic/Built-in
+import sys
+import inspect
 
 # Other Libs
 
@@ -22,63 +24,42 @@ __status__ = 'Dev'
 # customise the messaging
 
 class CbcAPIError(Exception):
-    """Base class for other exceptions"""
-    def __init__(self):
-        super().__init__()
-
-    pass
+    #Base class for our custom exceptions
+    #Stops the traceback information being shown
+    def __init__(self, msg):
+        try:
+            ln = sys.exc_info()[-1].tb_lineno
+        except AttributeError:
+            ln = inspect.currentframe().f_back.f_lineno
+        self.args = "{0.__name__} : {1}".format(type(self), msg),
+        sys.exit(self)
 
 
 class MissingAccessKeyError(CbcAPIError):
-    def __init__(self, message_to_display):
-        print(message_to_display)
-
-        super(MissingAccessKeyError, self).__init__(message_to_display)
-
+    # Raised when there is a problem with the environmental variable that defines the access key for the Public API
     pass
 
 
 class MissingSecretKeyError(CbcAPIError):
-    def __init__(self, message_to_display):
-        print(message_to_display)
-
-        super(MissingSecretKeyError, self).__init__(message_to_display)
-
+    # Raised when there is a problem with the environmental variable that defines the secret key for the Public API
     pass
 
 
 class MissingBaseURLError(CbcAPIError):
-    def __init__(self, message_to_display):
-        print(message_to_display)
-
-        super(MissingBaseURLError, self).__init__(message_to_display)
-
+    #Raised when there is a problem with the environmental variable that defines the URL for the Public API
     pass
 
 
 class AllowlistRuleError(CbcAPIError):
-    def __init__(self, message_to_display):
-        print(message_to_display)
-
-        super(AllowlistRuleError, self).__init__(message_to_display)
-
+    #Allow list is wrong
     pass
 
 
 class UserBucketAccessListError(CbcAPIError):
-    """Raised when invalid list of buckets & access is given for a cluster user"""
-    def __init__(self, message_to_display):
-        print(message_to_display)
-
-        super(UserBucketAccessListError, self).__init__(message_to_display)
-
+    #Raised when invalid list of buckets & access is given for a cluster user
     pass
 
+
 class InvalidUuidError(CbcAPIError):
-    """Raised when an invalid uuid is given"""
-    def __init__(self, message_to_display):
-        print(message_to_display)
-
-        super(InvalidUuidError, self).__init__(message_to_display)
-
+    #Raised when an invalid uuid is given
     pass
