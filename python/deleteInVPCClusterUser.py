@@ -37,7 +37,7 @@ def main(CmdLineArgs):
 
     # Check Capella API status
     if capella_api.api_status().status_code == 200:
-        capella_api_response = capella_api.delete_cluster_user(False,CmdLineArgs.ClusterID, CmdLineArgs.UserName)
+        capella_api_response = capella_api.delete_cluster_user(False,CmdLineArgs.clusterID, CmdLineArgs.UserName)
 
         if capella_api_response.status_code == 204:
             print("Cluster user is deleted")
@@ -54,17 +54,21 @@ if __name__ == '__main__':
     # Process command line args
     # Create the parser
     my_parser = MyParser(description='Deletes a user from a cluster')
-    my_parser.ExampleCmdline = """  -cid d157a069-9451-4188-a4b1-8be2920db094 -un myuser """
+    my_parser.ExampleCmdline = " -cid d157a069-9451-4188-a4b1-8be2920db094 -un myuser "
 
     # Add the arguments
 
     my_parser.add_argument('-cid', '--clusterID',
+                           dest="clusterID",
+                           metavar="",
                            action='store',
                            required=True,
                            type=check_if_valid_uuid,
                            help='The ID of the cluster')
 
     my_parser.add_argument('-un', '--UserName',
+                           dest="UserName",
+                           metavar="",
                            action='store',
                            required=True,
                            type=str,

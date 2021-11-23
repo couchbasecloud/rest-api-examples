@@ -84,18 +84,24 @@ if __name__ == '__main__':
     # Add the arguments
 
     my_parser.add_argument('-cid', '--ClusterID',
+                           dest="ClusterID",
+                           metavar="",
                            action='store',
                            required=True,
                            type=check_if_valid_uuid,
                            help='The ID of the cluster')
 
     my_parser.add_argument('-n', '--Name',
+                           dest="Name",
+                           metavar="",
                            action='store',
                            required=True,
                            type=str,
                            help='The name of the bucket')
 
     my_parser.add_argument('-m', '--MemoryQuota',
+                           dest="MemoryQuota",
+                           metavar="",
                            action='store',
                            type=int,
                            required=False,

@@ -34,7 +34,7 @@ def main(CmdLineArgs):
         }
 
     if cappella_api.api_status().status_code == 200:
-            capella_api_response = cappella_api.delete_cluster_bucket(CmdLineArgs.ClusterID, bucket_configuration)
+            capella_api_response = cappella_api.delete_cluster_bucket(CmdLineArgs.clusterID, bucket_configuration)
 
             # Did the delete work?
             if capella_api_response.status_code == 202:
@@ -49,12 +49,14 @@ if __name__ == '__main__':
     # Process command line args
     # Create the parser
     my_parser = MyParser(description='Deletes a bucket from a cluster running in your cloud')
-    my_parser.ExampleCmdline = """-cid "d157a069-9451-4188-a4b1-8be2920db094" -n "my-bucket" """
+    my_parser.ExampleCmdline = "-cid d157a069-9451-4188-a4b1-8be2920db094 -n my-bucket"
 
     # Add the arguments
 
     my_parser.add_argument('-cid', '--clusterID',
                            action='store',
+                           dest="clusterID",
+                           metavar="",
                            required=True,
                            type=check_if_valid_uuid,
                            help='The ID of the cluster')

@@ -100,12 +100,16 @@ if __name__ == '__main__':
                            help="The ID of the cluster " )
 
     my_parser.add_argument('-cb', '--cidrBlock',
+                           dest="cidrBlock",
+                           metavar="",
                            action='store',
                            type=str,
                            required=True,
                            help='The cidrBlock of the allow list entry to update')
 
     my_parser.add_argument('-ct', '--Comment',
+                           dest="Comment",
+                           metavar="",
                            action='store',
                            type=str,
                            required=True,

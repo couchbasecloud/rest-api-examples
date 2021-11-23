@@ -21,6 +21,7 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 def main(CmdLineArgs):
+    cappella_api = CapellaAPI()
 
     if CmdLineArgs.debug:
         capella_logging('debug')
@@ -28,11 +29,9 @@ def main(CmdLineArgs):
     else:
         capella_logging('info')
 
-    cappella_api = CapellaAPI()
-
     # Delete the cluster  and indicate that this cluster will run in the Couchbase cloud
     # by calling with True
-    capella_api_response = cappella_api.delete_cluster(True,CmdLineArgs.clusterID)
+    capella_api_response = cappella_api.delete_cluster(True, CmdLineArgs.clusterID)
 
     # Check response code , 201 is success
     if capella_api_response.status_code == 202:
@@ -48,11 +47,13 @@ def main(CmdLineArgs):
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
-    my_parser = MyParser(description='Deletes a cluster from Couchbase Capella')
-    my_parser.ExampleCmdline = """-cid "1478c0f4-07b2-4818-a5e8-d15703ef79b0" """
+    my_parser = MyParser(description='Deletes a cluster, in a cloud managed by Couchbase, from Couchbase Capella')
+    my_parser.ExampleCmdline = "-cid 1478c0f4-07b2-4818-a5e8-d15703ef79b0 "
 
     # Add the arguments
     my_parser.add_argument('-cid', '--clusterID',
+                           dest="clusterID",
+                           metavar="",
                            action='store',
                            required=True,
                            type=check_if_valid_uuid,

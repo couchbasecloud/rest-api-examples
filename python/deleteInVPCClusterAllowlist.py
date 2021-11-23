@@ -34,7 +34,7 @@ def main(CmdLineArgs):
         }
 
     if cappella_api.api_status().status_code == 200:
-            capella_api_response = cappella_api.delete_cluster_allowlist(CmdLineArgs.ClusterID, bucket_configuration)
+            capella_api_response = cappella_api.delete_cluster_allowlist(CmdLineArgs.clusterID, bucket_configuration)
 
             # Did the delete work?
             if capella_api_response.status_code == 204:
@@ -49,17 +49,21 @@ if __name__ == '__main__':
     # Process command line args
     # Create the parser
     my_parser = MyParser(description='Deletes an allowlist from a cluster running in your cloud')
-    my_parser.ExampleCmdline = """-cid "d157a069-9451-4188-a4b1-8be2920db094" -cB "10.0.0.1" """
+    my_parser.ExampleCmdline = "-cid d157a069-9451-4188-a4b1-8be2920db094 -cb 10.0.0.1"
 
     # Add the arguments
 
     my_parser.add_argument('-cid', '--clusterID',
+                           dest="clusterID",
+                           metavar="",
                            action='store',
                            required=True,
                            type=check_if_valid_uuid,
                            help='The ID of the cluster')
 
     my_parser.add_argument('-cb', '--cidrBlock',
+                           dest="cidrBlock",
+                           metavar="",
                            action='store',
                            required=True,
                            help='The cidr block of the allow list to delete')

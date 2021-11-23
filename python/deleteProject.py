@@ -55,11 +55,13 @@ if __name__ == '__main__':
     # Process command line args
     # Create the parser
     my_parser = MyParser(description='Deletes a project from Couchbase Capella')
-    my_parser.ExampleCmdline = """Delete project   -pid "e50323f2-2c1c-4506-8234-504d5332f400" \nWith debug  -pid "e50323f2-2c1c-4506-8234-504d5332f400" -d"""
+    my_parser.ExampleCmdline = "-pid e50323f2-2c1c-4506-8234-504d5332f400 \n With debug  -pid e50323f2-2c1c-4506-8234-504d5332f400 -d"
 
     # Add the arguments
 
     my_parser.add_argument('-pid', '--projectID',
+                           dest="projectID",
+                           metavar="",
                            action='store',
                            required=True,
                            type=check_if_valid_uuid,
