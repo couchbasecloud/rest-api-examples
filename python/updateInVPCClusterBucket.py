@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Generic/Built-in
+import base64
 
 # Other Libs
 
@@ -33,47 +34,46 @@ def main(CmdLineArgs):
     else:
         capella_logging('info')
 
-    # Caution :  The endpoint treats the clusters buckets as a single resource
-    #            This means the new, updated, configuration will replace what is already there
-    #            We will get the current buckets, alter the bucket that we're changing
-    #            and then send everything back.
-    #            If we didn't do this, we'd end up with a cluster with just the bucket we're updating...
-
-    # Step 1 - get the clusters current buckets
+    # Check the status of the API, response code = 200 is success
     if cappella_api.api_status().status_code == 200:
-        cluster_buckets_from_API = cappella_api.get_cluster_buckets(CmdLineArgs.ClusterID)
+        # Work out the bucket ID
+        # which is the base64 value of the bucket name
+        bucketName_bytes = CmdLineArgs.bucketName.encode('ascii')
+        base64_bytes = base64.b64encode(bucketName_bytes)
+        bucketName_base64  = base64_bytes.decode('ascii')
 
-        # Check response code , 200 is success
-        if cluster_buckets_from_API.status_code == 200:
-            # Did we actually get any buckets?
-            if cluster_buckets_from_API.json() is not None:
-                # Yep, we did.
-                # Step 2 - Find the bucket that we want to update. Buckets have unique names, so we can search on that
-                bucket_found = False
-                cluster_buckets = cluster_buckets_from_API.json()
-                for cluster_bucket in cluster_buckets:
-                    if cluster_bucket['name'] == CmdLineArgs.Name:
-                        bucket_found = True
-                        # Check which bucket configuration parameters are present
-                        # If they are not present, then we leave the current value in place
-                        if CmdLineArgs.MemoryQuota is not None:
-                            cluster_bucket["memoryQuota"] = CmdLineArgs.MemoryQuota
+        # Get the current cluster buckets
+        capella_api_response = cappella_api.get_cluster_buckets(CmdLineArgs.ClusterID)
 
-                        # We can now update the clusters buckets
-                        capella_api_response = cappella_api.update_cluster_bucket(CmdLineArgs.ClusterID, cluster_buckets)
+        # We got the buckets, now check that we have the one we want to update
+        if capella_api_response.status_code == 200:
+            cluster_buckets = capella_api_response.json()
+            found_bucket = False
+            for cluster_bucket in cluster_buckets:
+                if cluster_bucket['name'] == CmdLineArgs.bucketName:
+                    cluster_bucket['memoryQuota'] = CmdLineArgs.MemoryQuota
+                    found_bucket = True
+                    # Now update the bucket
+                    capella_api_response = cappella_api.update_cluster_bucket(CmdLineArgs.ClusterID, bucketName_base64, cluster_bucket)
 
-                        # Did the update work?
-                        if capella_api_response.status_code == 201:
-                            print("Updating bucket ")
-                        else:
-                            print("Failed to update bucket ")
-                            print("Capella API returned " + str(capella_api_response.status_code))
-                            print("Full error message")
-                            print(capella_api_response.json()["message"])
+                    # Did the update work?
+                    if capella_api_response.status_code == 202:
+                        print("Bucket memory quota is being updated ")
+                    else:
+                        print("Failed to update bucket ")
+                        print("Capella API returned " + str(capella_api_response.status_code))
+                        print("Full error message")
+                        print(capella_api_response.json()["message"])
+            if not found_bucket:
+                # We didn't find the bucket to update
+                print("Unable to find " + CmdLineArgs.bucketName + " to update on this cluster")
 
-                if not bucket_found:
-                    print("Unable to find " + CmdLineArgs.Name + " for this cluster")
-
+        else:
+            print("This cluster cannot be found")
+            print("Full error message")
+            print(capella_api_response.json()["message"])
+    else:
+        print("Check Capella API is up.")
 
 if __name__ == '__main__':
     # Process command line args
@@ -91,8 +91,8 @@ if __name__ == '__main__':
                            type=check_if_valid_uuid,
                            help='The ID of the cluster')
 
-    my_parser.add_argument('-n', '--Name',
-                           dest="Name",
+    my_parser.add_argument('-n', '--bucketName',
+                           dest="bucketName",
                            metavar="",
                            action='store',
                            required=True,

@@ -185,8 +185,8 @@ class CapellaAPI(CapellaAPIRequests):
         return (capella_api_response)
 
 
-    def update_cluster_bucket(self, cluster_id, new_bucket_configuration):
-        capella_api_response = self.capella_api_put('/v2/clusters' + '/' + cluster_id + '/buckets', new_bucket_configuration)
+    def update_cluster_bucket(self, cluster_id, bucket_id, new_bucket_configuration):
+        capella_api_response = self.capella_api_put('/v2/clusters' + '/' + cluster_id + '/buckets/' + bucket_id , new_bucket_configuration)
 
         return (capella_api_response)
 
