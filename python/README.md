@@ -78,7 +78,7 @@ Clouds
 
 ```
 ## Documentation
-Documentation for the beta APIs can be found at https://docs.couchbase.com/cloud/public-api-guide/introducing-public-api.html 
+Documentation for the beta APIs can be found at https://docs.couchbase.com/cloud
 
 
 ## Tinkering
