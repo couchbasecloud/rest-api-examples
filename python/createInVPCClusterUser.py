@@ -66,11 +66,7 @@ def main(cmd_line_args):
             print('access not found for ' + bucket_and_access_entry)
             raise UserBucketAccessListError('access not found for ' + bucket_and_access_entry)
 
-        print(cluster_user_bucket_access_struct)
-
         cluster_user_struct["buckets"].append(cluster_user_bucket_access_struct)
-
-    print(cluster_user_struct)
 
     # Check Capella API status
     if capella_api.api_status().status_code == 200:

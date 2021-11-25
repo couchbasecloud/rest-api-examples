@@ -43,18 +43,18 @@ def main(cmd_line_args):
             if len(cluster_entries) > 0:
                 cluster_table_heading = ['Environment', 'Name', 'Cluster ID', 'Cloud ID', 'Project ID']
                 for cluster_entry in cluster_entries:
-                    clusterEnvironment = cluster_entry['environment']
-                    clusterID = cluster_entry['id']
-                    clusterName = cluster_entry['name']
-                    projectID = cluster_entry['projectId']
+                    cluster_environment = cluster_entry['environment']
+                    cluster_id = cluster_entry['id']
+                    cluster_name = cluster_entry['name']
+                    project_id = cluster_entry['projectId']
                     # if the cluster is inVPC, then we will have a cloud ID
-                    if clusterEnvironment == 'inVpc':
+                    if cluster_environment == 'inVpc':
                         clusterCloudID = cluster_entry['cloudId']
                     else:
                         clusterCloudID = 'N/A'
 
                     # Put the completed row in the table
-                    clusters_table_rows.append([clusterEnvironment, clusterName, clusterID, clusterCloudID, projectID])
+                    clusters_table_rows.append([cluster_environment, cluster_name, cluster_id, clusterCloudID, project_id])
 
                 # Display the table, which uses pretty table to make things easier
                 print('Capella Clusters ')
