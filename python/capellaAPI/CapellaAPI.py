@@ -61,12 +61,6 @@ class CapellaAPI(CapellaAPIRequests):
 
     # Cluster methods
     def get_clusters(self):
-        capella_api_response = self.capella_api_get('/v2/clusters')
-
-        return (capella_api_response)
-
-
-    def get_clusters_v3(self):
         capella_api_response = self.capella_api_get('/v3/clusters')
 
         return (capella_api_response)

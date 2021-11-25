@@ -29,7 +29,7 @@ def main(CmdlineArgs):
     else:
         capella_logging('info')
 
-    capella_api_response = cappella_api.get_clusters_v3()
+    capella_api_response = cappella_api.get_clusters()
 
     # Check response code , 200 is success
     if capella_api_response.status_code == 200:

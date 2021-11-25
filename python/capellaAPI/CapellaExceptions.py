@@ -65,3 +65,6 @@ class InvalidUuidError(CbcAPIError):
     pass
 
 class GenericHTTPError(CbcAPIError):
+    # Raised for generic http errors resulting
+    # from calling the API
+    pass
