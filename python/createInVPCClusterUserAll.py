@@ -63,7 +63,6 @@ def main(CmdLineArgs):
         print("Check Capella API is up.")
 
 
-# Need to check that list of buckets
 def bucket_access_type(bucket_access_list):
     # We should have a string like this r or w
     # nothing else is allowed
@@ -80,8 +79,7 @@ if __name__ == '__main__':
     # Process command line args
     # Create the parser
     my_parser = MyParser(description='Creates a user for a cluster and grants them access to all buckets')
-    my_parser.ExampleCmdline = """-cid d157a069-9451-4188-a4b1-8be2920db094 -un myuser -pwd Password123! -a w \n
-    Access is r or w """
+    my_parser.ExampleCmdline = "-cid d157a069-9451-4188-a4b1-8be2920db094 -un myuser -pwd Password123! -a w"
 
     # Add the arguments
 
