@@ -2,14 +2,10 @@
 
 # Generic/Built-in
 
-
-
 # Other Libs
 
 
 # Owned
-import json
-
 from capellaAPI.CapellaAPICommon import MyParser
 from capellaAPI.CapellaAPICommon import capella_logging
 from capellaAPI.CapellaAPICommon import check_if_valid_uuid
@@ -35,7 +31,7 @@ def main(CmdlineArgs):
     else:
         capella_logging('info')
 
-    #Check Capella API status
+    # Check Capella API status
     if cappella_api.api_status().status_code == 200:
         capella_api_response = cappella_api.get_cluster_health(CmdlineArgs.ClusterID)
 
@@ -43,7 +39,7 @@ def main(CmdlineArgs):
         if capella_api_response.status_code == 200:
             # Show a table with the node information
             table_rows = []
-            table_header = ["Node name","Services","Status"]
+            table_header = ["Node name", "Services", "Status"]
 
             if "nodeStats" in capella_api_response.json():
                 table_entries = capella_api_response.json()["nodeStats"]
@@ -59,7 +55,7 @@ def main(CmdlineArgs):
                     cluster_node_count = str(table_entries["totalCount"])
                     for entry in table_entries["serviceStats"]:
                         service_list_as_str = ' '.join(entry["services"])
-                        table_rows.append([entry["nodeName"],service_list_as_str,entry["status"]])
+                        table_rows.append([entry["nodeName"], service_list_as_str, entry["status"]])
 
                     print('Cluster nodes: ' + cluster_node_count)
                     print(pretty_table(table_header, table_rows))
@@ -79,14 +75,14 @@ def main(CmdlineArgs):
                 if len(table_entries) > 0:
                     cluster_bucket_count = str(table_entries["totalCount"])
                     for entry_key in table_entries["healthStats"].keys():
-                        table_rows.append([entry_key,table_entries["healthStats"][entry_key]])
+                        table_rows.append([entry_key, table_entries["healthStats"][entry_key]])
 
                     print('Cluster buckets: ' + cluster_bucket_count)
                     print(pretty_table(table_header, table_rows))
 
         else:
             print("Failed to get health for cluster ID " + CmdlineArgs.ClusterID)
-            print("Capella API returned " + str(capella_api_response.status_code) )
+            print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])
 
@@ -94,21 +90,20 @@ def main(CmdlineArgs):
         print("Check Capella API is up.")
 
 
-
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
     my_parser = MyParser(description='Get the health of a cluster running in your cloud')
-    my_parser.ExampleCmdline = """-cid "1478c0f4-07b2-4818-a5e8-d15703ef79b0" """
+    my_parser.ExampleCmdline = "-cid 1478c0f4-07b2-4818-a5e8-d15703ef79b0"
 
     # Add the arguments
-    my_parser.add_argument("-cid","--ClusterID",
+    my_parser.add_argument("-cid", "--ClusterID",
                            dest="ClusterID",
                            action='store',
                            required=True,
                            metavar="",
                            type=check_if_valid_uuid,
-                           help="The ID of the cluster " )
+                           help="The ID of the cluster ")
 
     my_parser.add_argument("-d", "--debug",
                            default=False,

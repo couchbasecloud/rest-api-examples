@@ -8,8 +8,6 @@ import logging
 # Owned
 from capellaAPI.CapellaAPIRequests import CapellaAPIRequests
 
-
-
 __author__ = 'Jonathan Giffard'
 __copyright__ = 'Copyright 2021, Couchbase'
 __credits__ = ['Jonathan Giffard']
@@ -37,13 +35,11 @@ class CapellaAPI(CapellaAPIRequests):
 
         return (capella_api_response)
 
-
     # Cloud methods
     def get_clouds(self):
         capella_api_response = self.capella_api_get('/v2/clouds?perPage=' + str(self.perPage))
 
         return (capella_api_response)
-
 
     # Project methods
     def get_projects(self):
@@ -63,18 +59,18 @@ class CapellaAPI(CapellaAPIRequests):
 
         return (capella_api_response)
 
-
-
     # Cluster methods
     def get_clusters(self):
         capella_api_response = self.capella_api_get('/v2/clusters')
 
         return (capella_api_response)
 
+
     def get_clusters_v3(self):
         capella_api_response = self.capella_api_get('/v3/clusters')
 
         return (capella_api_response)
+
 
     def get_cluster_health(self, cluster_id):
         capella_api_response = self.capella_api_get('/v2/clusters/' + cluster_id + '/health')
@@ -101,7 +97,7 @@ class CapellaAPI(CapellaAPIRequests):
 
 
     def create_cluster(self, hosted_cluster ,cluster_configuration):
-        if not hosted_cluster :
+        if not hosted_cluster:
             capella_api_response = self.capella_api_post('/v2/clusters',cluster_configuration)
         else:
             capella_api_response = self.capella_api_post('/v3/clusters', cluster_configuration)
@@ -110,7 +106,8 @@ class CapellaAPI(CapellaAPIRequests):
 
 
     def update_cluster_servers(self, cluster_id, new_cluster_server_configuration):
-        capella_api_response = self.capella_api_put('/v3/clusters' + '/' + cluster_id + '/servers', new_cluster_server_configuration)
+        capella_api_response = self.capella_api_put('/v3/clusters' + '/' + cluster_id + '/servers',
+                                                    new_cluster_server_configuration)
 
         return (capella_api_response)
 
@@ -129,7 +126,7 @@ class CapellaAPI(CapellaAPIRequests):
                 if len(capella_api_response.text) > 0:
                     response_dict = capella_api_response.json()['place']
 
-        #return just the servers bit
+        # return just the servers bit
         return (response_dict)
 
 
@@ -144,104 +141,100 @@ class CapellaAPI(CapellaAPIRequests):
 
     def get_cluster_users(self, hosted_cluster, cluster_id):
         if not hosted_cluster:
-            capella_api_response = self.capella_api_get('/v2/clusters' + '/' + cluster_id + '/users')
+            capella_api_response = self.capella_api_get('/v2/clusters' + '/' + cluster_id +
+                                                        '/users')
         else:
-            capella_api_response = self.capella_api_get('/v3/clusters' + '/' + cluster_id + '/users')
+            capella_api_response = self.capella_api_get('/v3/clusters' + '/' + cluster_id +
+                                                        '/users')
 
         return (capella_api_response)
 
 
     def delete_cluster_user(self, hosted_cluster, cluster_id, cluster_user):
         if not hosted_cluster:
-            capella_api_response = self.capella_api_del('/v2/clusters' + '/' + cluster_id + '/users/' + cluster_user)
+            capella_api_response = self.capella_api_del('/v2/clusters' + '/' + cluster_id +
+                                                        '/users/' + cluster_user)
         else:
-            capella_api_response = self.capella_api_del('/v3/clusters' + '/' + cluster_id + '/users/'+ cluster_user )
+            capella_api_response = self.capella_api_del('/v3/clusters' + '/' + cluster_id +
+                                                        '/users/'+ cluster_user)
 
         return (capella_api_response)
-
-
 
     # Cluster certificate
     def get_cluster_certificate(self,hosted_cluster, cluster_id):
         if not hosted_cluster:
-            capella_api_response = self.capella_api_get('/v2/clusters' + '/' + cluster_id + '/certificate' )
+            capella_api_response = self.capella_api_get('/v2/clusters' + '/' + cluster_id +
+                                                        '/certificate')
         else:
-            capella_api_response = self.capella_api_get('/v3/clusters' + '/' + cluster_id + '/certificate' )
+            capella_api_response = self.capella_api_get('/v3/clusters' + '/' + cluster_id +
+                                                        '/certificate')
 
         return (capella_api_response)
 
-
-
     # Cluster buckets
     def get_cluster_buckets(self, cluster_id):
-        capella_api_response = self.capella_api_get('/v2/clusters' + '/' + cluster_id + '/buckets')
+        capella_api_response = self.capella_api_get('/v2/clusters' + '/' + cluster_id +
+                                                    '/buckets')
 
         return (capella_api_response)
 
 
     def create_cluster_bucket(self, cluster_id, bucket_configuration):
-        capella_api_response = self.capella_api_post('/v2/clusters' + '/' + cluster_id + '/buckets', bucket_configuration)
+        capella_api_response = self.capella_api_post('/v2/clusters' + '/' + cluster_id +
+                                                     '/buckets', bucket_configuration)
 
         return (capella_api_response)
 
 
     def update_cluster_bucket(self, cluster_id, bucket_id, new_bucket_configuration):
-        capella_api_response = self.capella_api_put('/v2/clusters' + '/' + cluster_id + '/buckets/' + bucket_id , new_bucket_configuration)
+        capella_api_response = self.capella_api_put('/v2/clusters' + '/' + cluster_id +
+                                                    '/buckets/' + bucket_id , new_bucket_configuration)
 
         return (capella_api_response)
 
 
     def delete_cluster_bucket(self, cluster_id, bucket_configuration):
-        capella_api_response = self.capella_api_del('/v2/clusters' + '/' + cluster_id + '/buckets', bucket_configuration)
+        capella_api_response = self.capella_api_del('/v2/clusters' + '/' + cluster_id +
+                                                    '/buckets', bucket_configuration)
 
         return (capella_api_response)
 
-
-
     #Cluster Allow lists
     def get_cluster_allowlist(self, cluster_id):
-        capella_api_response = self.capella_api_get('/v2/clusters' + '/' + cluster_id + '/allowlist')
+        capella_api_response = self.capella_api_get('/v2/clusters' + '/' + cluster_id +
+                                                    '/allowlist')
 
         return (capella_api_response)
 
 
     def delete_cluster_allowlist(self, cluster_id, allowlist_configuration):
-        capella_api_response = self.capella_api_del('/v2/clusters' + '/' + cluster_id + '/allowlist', allowlist_configuration)
+        capella_api_response = self.capella_api_del('/v2/clusters' + '/' + cluster_id +
+                                                    '/allowlist', allowlist_configuration)
 
         return (capella_api_response)
 
 
     def create_cluster_allowlist(self, cluster_id, allowlist_configuration):
-        capella_api_response = self.capella_api_post('/v2/clusters' + '/' + cluster_id + '/allowlist', allowlist_configuration)
+        capella_api_response = self.capella_api_post('/v2/clusters' + '/' + cluster_id +
+                                                     '/allowlist', allowlist_configuration)
 
         return (capella_api_response)
 
 
     def update_cluster_allowlist(self, cluster_id, new_allowlist_configuration):
-        capella_api_response = self.capella_api_put('/v2/clusters' + '/' + cluster_id + '/allowlist', new_allowlist_configuration)
+        capella_api_response = self.capella_api_put('/v2/clusters' + '/' + cluster_id +
+                                                    '/allowlist', new_allowlist_configuration)
 
         return (capella_api_response)
-
-
 
     # Cluster user
     def create_cluster_user(self, cluster_id, cluster_user_configuration):
-        capella_api_response = self.capella_api_post('/v2/clusters' + '/' + cluster_id + '/users', cluster_user_configuration)
+        capella_api_response = self.capella_api_post('/v2/clusters' + '/' + cluster_id +
+                                                     '/users', cluster_user_configuration)
         return (capella_api_response)
-
-
 
     # Capella Users
     def get_users(self):
         capella_api_response = self.capella_api_get('/v2/users?perPage=' + str(self.perPage))
 
         return (capella_api_response)
-
-
-
-def main():
-    pass
-
-if __name__ == '__main__':
-        main()
-

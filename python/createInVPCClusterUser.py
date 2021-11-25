@@ -6,8 +6,6 @@
 # Other Libs
 import re
 
-import fe
-
 # Owned
 from capellaAPI.CapellaAPI import CapellaAPI
 from capellaAPI.CapellaAPICommon import MyParser
@@ -65,8 +63,8 @@ def main(CmdLineArgs):
             cluster_user_bucket_access_struct["bucketAccess"].append("data_writer")
             cluster_user_bucket_access_struct["bucketAccess"].append("data_reader")
         else:
-            print('access not found for '  + bucket_and_access_entry )
-            raise UserBucketAccessListError('access not found for '  + bucket_and_access_entry)
+            print('access not found for ' + bucket_and_access_entry)
+            raise UserBucketAccessListError('access not found for ' + bucket_and_access_entry)
 
         print(cluster_user_bucket_access_struct)
 
@@ -88,11 +86,10 @@ def main(CmdLineArgs):
     else:
         print("Check Capella API is up.")
 
+
 # Need to check that list of buckets
 def bucket_access_type(bucket_access_list):
     # We should have a string like this <bucket name>:<bucket access rw, r or w>
-    # If we see bucket name = *, then it's telling us this is for all buckets and then will have r, rw or w
-
     # our regex to check that we've got the right format
     # hate these btw
     regex_for_bucket_and_access = r'(?:^[a-zA-Z0-9.-]+[:]+[rw])'
@@ -106,7 +103,9 @@ def bucket_access_type(bucket_access_list):
     for entry in bucket_access_list.split(','):
         result = compiled_regex.findall(entry.strip())
         if not result:
-            raise UserBucketAccessListError(entry + " is not valid.  must be <bucket name>:<access> where access is r,w or rw.  * is not permitted for bucket name.  ")
+            raise UserBucketAccessListError(entry + " is not valid.  "
+                                                    "must be <bucket name>:<access> where access is r,w or rw.  "
+                                                    "* is not permitted for bucket name.  ")
 
     return (bucket_access_list)
 
@@ -115,10 +114,10 @@ if __name__ == '__main__':
     # Process command line args
     # Create the parser
     my_parser = MyParser(description='Creates a user for a cluster and grants them access to one or more buckets')
-    my_parser.ExampleCmdline = """  -cid d157a069-9451-4188-a4b1-8be2920db094 -un myuser -pwd Password123! -b "bucket1:rw,bucket2:rw" \n* for a bucket name is not permitted.  Bucket name has to be a valid Couchbase Server bucket name. """
+    my_parser.ExampleCmdline = """-cid d157a069-9451-4188-a4b1-8be2920db094 -un myuser -pwd Password123! -b 
+    "bucket1:rw,bucket2:rw" """
 
     # Add the arguments
-
     my_parser.add_argument("-cid", "--ClusterID",
                            dest="ClusterID",
                            action='store',
@@ -149,7 +148,9 @@ if __name__ == '__main__':
                            metavar="",
                            type=bucket_access_type,
                            required=True,
-                           help='List of buckets and access for each.\n  Format: <bucket name>:<bucket access>  Bucket access can be r,w or rw')
+                           help='List of buckets and access for each.\n  '
+                                'Format: <bucket name>:<bucket access>  Bucket access can be r,w or rw. \n'
+                                '* is not permitted for a bucket name')
 
     my_parser.add_argument("-d", "--debug",
                            default=False,
@@ -159,5 +160,3 @@ if __name__ == '__main__':
     args = my_parser.parse_args()
 
     main(args)
-
-

@@ -43,7 +43,7 @@ def main(CmdLineArgs):
     if capella_api_response.status_code == 201:
         print("Creating bucket ")
     else:
-        print("Failed to create bucket " )
+        print("Failed to create bucket ")
         print("Capella API returned " + str(capella_api_response.status_code))
         print("Full error message")
         print(capella_api_response.json()["message"])
@@ -52,8 +52,9 @@ def main(CmdLineArgs):
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
-    my_parser = MyParser(description='Creates a bucket for a cluster using Couchbases own cloud in Couchbase Capella')
-    my_parser.ExampleCmdline = """  -cid d157a069-9451-4188-a4b1-8be2920db094 -n mynewbucket -r 0 -m 250 """
+    my_parser = MyParser(description='Creates a bucket for a cluster using '
+                                     'Couchbases own cloud in Couchbase Capella')
+    my_parser.ExampleCmdline = "-cid d157a069-9451-4188-a4b1-8be2920db094 -n mynewbucket -r 0 -m 250 "
 
     # Add the arguments
 
@@ -89,5 +90,3 @@ if __name__ == '__main__':
     args = my_parser.parse_args()
 
     main(args)
-
-

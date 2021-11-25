@@ -31,42 +31,40 @@ def main(CmdLineArgs):
     else:
         capella_logging('info')
 
-    #Check Capella API status
+    # Check Capella API status
     if cappella_api.api_status().status_code == 200:
         capella_api_response = cappella_api.get_cluster_info(False, CmdLineArgs.ClusterID)
         if capella_api_response.status_code == 200:
-            #Cluster information was found
+            # Cluster information was found
             print("Got information for cluster ID " + CmdLineArgs.ClusterID)
             print(json.dumps(capella_api_response.json(), indent=3))
         else:
             print("Failed to get information for cluster ID " + CmdLineArgs.ClusterID)
-            print("Capella API returned " + str(capella_api_response.status_code) )
+            print("Capella API returned " + str(capella_api_response.status_code))
 
     else:
         print("Check Capella API is up.")
-
 
 
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
     my_parser = MyParser(description='Get information for a cluster running in your cloud')
-    my_parser.ExampleCmdline = """-cid "1478c0f4-07b2-4818-a5e8-d15703ef79b0" """
+    my_parser.ExampleCmdline = "-cid 1478c0f4-07b2-4818-a5e8-d15703ef79b0"
 
     # Add the arguments
-    my_parser.add_argument("-cid","--ClusterID",
+    my_parser.add_argument("-cid", "--ClusterID",
                            dest="ClusterID",
                            action='store',
                            required=True,
                            metavar="",
                            type=check_if_valid_uuid,
-                           help="The ID of the cluster " )
+                           help="The ID of the cluster ")
 
     my_parser.add_argument("-d", "--debug",
                            default=False,
                            action="store_true",
                            help="Turn on logging at debug level")
-
 
     args = my_parser.parse_args()
 

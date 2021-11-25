@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
 # Generic/Built-in
-import argparse
 
 
 # Other Libs
-
 
 
 # Owned
@@ -23,7 +21,6 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-
 def main(CmdLineArgs):
     cappella_api = CapellaAPI()
 
@@ -33,15 +30,16 @@ def main(CmdLineArgs):
     else:
         capella_logging('info')
 
-    #Check Capella API status
+    # Check Capella API status
     if cappella_api.api_status().status_code == 200:
         capella_api_response = cappella_api.create_project(dict(name=CmdLineArgs.projectName))
         if capella_api_response.status_code == 201:
-            #Our project was created
-            print("Created project " + CmdLineArgs.projectName + " with ID of " + capella_api_response.json()['id'])
+            # Our project was created
+            print("Created project " + CmdLineArgs.projectName + " with ID of "
+                  + capella_api_response.json()['id'])
         else:
             print("Failed to create project " + CmdLineArgs.project)
-            print("Capella API returned " + str(capella_api_response.status_code) )
+            print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])
 
@@ -49,12 +47,12 @@ def main(CmdLineArgs):
         print("Check Capella API is up.")
 
 
-
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
     my_parser = MyParser(description='create a project in Couchbase Capella')
-    my_parser.ExampleCmdline = """Create new project:  -n "My new project"\nWith debug on -p "My new project" -d """
+    my_parser.ExampleCmdline = """Create new project:  -n "My new project"\n
+    With debug on -p "My new project" -d """
 
     # Add the arguments
 
@@ -74,4 +72,3 @@ if __name__ == '__main__':
     args = my_parser.parse_args()
 
     main(args)
-

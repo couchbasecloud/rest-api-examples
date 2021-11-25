@@ -3,7 +3,6 @@
 # Generic/Built-in
 
 
-
 # Other Libs
 
 
@@ -36,12 +35,6 @@ def main(CmdlineArgs):
 
     capella_api_response = cappella_api.get_cluster_users(False, CmdlineArgs.ClusterID)
 
-
-
-
-
-
-
     # Check response code , 200 is success
     if capella_api_response.status_code == 200:
         cluster_user_table_rows = []
@@ -55,8 +48,8 @@ def main(CmdlineArgs):
                 ClusterUserTableHeading = ['Name', 'Bucket', 'Access']
                 for cluster_user in cluster_users:
                     user_name = cluster_user['username']
-                    #We use this to determine if the user has access to more than one bucket
-                    #to help with formatting the table
+                    # We use this to determine if the user has access to more than one bucket
+                    # to help with formatting the table
                     first_entry = True
                     for cluster_user_access in cluster_user['access']:
                         bucket_name = cluster_user_access['bucketName']
@@ -68,8 +61,8 @@ def main(CmdlineArgs):
                                             cluster_user_access['bucketAccess'][1]
                         else:
                             bucket_access = cluster_user_access['bucketAccess'][0]
-                        #If it's the first entry, then we include the user name
-                        #Otherwise we leave that out so the table looks ok
+                        # If it's the first entry, then we include the user name
+                        # Otherwise we leave that out so the table looks ok
                         if first_entry:
                             cluster_user_table_rows.append([user_name, bucket_name, bucket_access])
                             first_entry = False
@@ -85,7 +78,7 @@ def main(CmdlineArgs):
         else:
             print("No users found for this cluster")
     else:
-        print("Failed to get list of users for this cluster " )
+        print("Failed to get list of users for this cluster ")
         print("Capella API returned " + str(capella_api_response.status_code))
         print("Full error message")
         print(capella_api_response.json()["message"])
@@ -95,24 +88,22 @@ if __name__ == '__main__':
     # Process command line args
     # Create the parser
     my_parser = MyParser(description='Get list of users for a cluster running in your cloud')
-    my_parser.ExampleCmdline = """-cid "1478c0f4-07b2-4818-a5e8-d15703ef79b0" """
+    my_parser.ExampleCmdline = "-cid 1478c0f4-07b2-4818-a5e8-d15703ef79b0"
 
     # Add the arguments
-    my_parser.add_argument("-cid","--ClusterID",
+    my_parser.add_argument("-cid", "--ClusterID",
                            dest="ClusterID",
                            action='store',
                            required=True,
                            metavar="",
                            type=check_if_valid_uuid,
-                           help="The ID of the cluster " )
+                           help="The ID of the cluster ")
 
     my_parser.add_argument("-d", "--debug",
                            default=False,
                            action="store_true",
                            help="Turn on logging at debug level")
 
-
     args = my_parser.parse_args()
 
     main(args)
-

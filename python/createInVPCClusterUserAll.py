@@ -4,9 +4,6 @@
 
 
 # Other Libs
-import re
-
-import fe
 
 # Owned
 from capellaAPI.CapellaAPI import CapellaAPI
@@ -43,8 +40,6 @@ def main(CmdLineArgs):
     # Split up into the individual bits we need
     all_bucket_access = CmdLineArgs.Access.strip()
 
-
-
     # Look at the access requested and then map to what the endpoint expects
     if all_bucket_access == 'r':
         cluster_user_struct['allBucketsAccess']="data_reader"
@@ -68,11 +63,6 @@ def main(CmdLineArgs):
         print("Check Capella API is up.")
 
 
-"""
-"allBucketsAccess": "data_writer"
-
-"""
-
 # Need to check that list of buckets
 def bucket_access_type(bucket_access_list):
     # We should have a string like this r or w
@@ -90,7 +80,8 @@ if __name__ == '__main__':
     # Process command line args
     # Create the parser
     my_parser = MyParser(description='Creates a user for a cluster and grants them access to all buckets')
-    my_parser.ExampleCmdline = """  -cid d157a069-9451-4188-a4b1-8be2920db094 -un myuser -pwd Password123! -a w \n Access is r or w """
+    my_parser.ExampleCmdline = """-cid d157a069-9451-4188-a4b1-8be2920db094 -un myuser -pwd Password123! -a w \n
+    Access is r or w """
 
     # Add the arguments
 
@@ -132,5 +123,3 @@ if __name__ == '__main__':
     args = my_parser.parse_args()
 
     main(args)
-
-

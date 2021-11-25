@@ -63,7 +63,6 @@ def main(CmdLineArgs):
         "version": "latest",
     }
 
-
     # Create the cluster, indicate that this is a hosted cluster by calling with True
     # and pass the configuration
     capella_api_response = cappella_api.create_cluster(True, cluster_configuration)
@@ -71,7 +70,8 @@ def main(CmdLineArgs):
     # Check response code , 202 is success
     if capella_api_response.status_code == 202:
         print("Creating cluster ")
-        print("Check deployment status here: " + cappella_api.api_base_url + capella_api_response.headers['Location'] + '/status')
+        print("Check deployment status here: " + cappella_api.api_base_url +
+              capella_api_response.headers['Location'] + '/status')
     else:
         print("Failed to create cluster ")
         print("Capella API returned " + str(capella_api_response.status_code))

@@ -20,6 +20,7 @@ __maintainer__ = 'Jonathan Giffard'
 __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
+
 def main(CmdLineArgs):
     cappella_api = CapellaAPI()
 
@@ -36,9 +37,10 @@ def main(CmdLineArgs):
     # Check response code , 201 is success
     if capella_api_response.status_code == 202:
         print("Deleting cluster ")
-        print("Check status here: " + cappella_api.api_base_url + capella_api_response.headers['Location'] + '/status')
+        print("Check status here: " + cappella_api.api_base_url +
+              capella_api_response.headers['Location'] + '/status')
     else:
-        print("Failed to delete cluster " )
+        print("Failed to delete cluster ")
         print("Capella API returned " + str(capella_api_response.status_code))
         print("Full error message")
         print(capella_api_response.json()["message"])
@@ -47,7 +49,8 @@ def main(CmdLineArgs):
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
-    my_parser = MyParser(description='Deletes a cluster, in a cloud managed by Couchbase, from Couchbase Capella')
+    my_parser = MyParser(description='Deletes a cluster, in a cloud managed by Couchbase, '
+                                     'from Couchbase Capella')
     my_parser.ExampleCmdline = "-cid 1478c0f4-07b2-4818-a5e8-d15703ef79b0 "
 
     # Add the arguments
@@ -67,5 +70,3 @@ if __name__ == '__main__':
     args = my_parser.parse_args()
 
     main(args)
-
-

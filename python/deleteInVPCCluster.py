@@ -20,8 +20,8 @@ __maintainer__ = 'Jonathan Giffard'
 __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
-def main(CmdLineArgs):
 
+def main(CmdLineArgs):
     cappella_api = CapellaAPI()
 
     if CmdLineArgs.debug:
@@ -30,16 +30,17 @@ def main(CmdLineArgs):
     else:
         capella_logging('info')
 
-    # Delete the cluster  and indicate that this cluster will run in the customers own cloud
-    # by calling with False
+    # Delete the cluster and indicate that this cluster
+    # will run in the customers own cloud by calling with False
     capella_api_response = cappella_api.delete_cluster(False, CmdLineArgs.clusterID)
 
     # Check response code , 201 is success
     if capella_api_response.status_code == 202:
         print("Deleting cluster ")
-        print("Check status here: " + cappella_api.api_base_url + capella_api_response.headers['Location'] + '/status')
+        print("Check status here: " + cappella_api.api_base_url +
+              capella_api_response.headers['Location'] + '/status')
     else:
-        print("Failed to delete cluster " )
+        print("Failed to delete cluster ")
         print("Capella API returned " + str(capella_api_response.status_code))
         print("Full error message")
         print(capella_api_response.json()["message"])
@@ -68,5 +69,3 @@ if __name__ == '__main__':
     args = my_parser.parse_args()
 
     main(args)
-
-

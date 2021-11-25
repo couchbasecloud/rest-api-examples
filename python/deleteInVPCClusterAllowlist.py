@@ -20,6 +20,7 @@ __maintainer__ = 'Jonathan Giffard'
 __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
+
 def main(CmdLineArgs):
     cappella_api = CapellaAPI()
 
@@ -30,20 +31,21 @@ def main(CmdLineArgs):
         capella_logging('info')
 
     bucket_configuration = {
-        "cidrBlock" : CmdLineArgs.cidrBlock
-        }
+        "cidrBlock": CmdLineArgs.cidrBlock
+    }
 
     if cappella_api.api_status().status_code == 200:
-            capella_api_response = cappella_api.delete_cluster_allowlist(CmdLineArgs.clusterID, bucket_configuration)
+        capella_api_response = cappella_api.delete_cluster_allowlist(CmdLineArgs.clusterID, bucket_configuration)
 
-            # Did the delete work?
-            if capella_api_response.status_code == 204:
-                print("Deleting allowlist ")
-            else:
-                print("Failed to delete allowlist ")
-                print("Capella API returned " + str(capella_api_response.status_code))
-                print("Full error message")
-                print(capella_api_response.json()['message'])
+        # Did the delete work?
+        if capella_api_response.status_code == 204:
+            print("Deleting allowlist ")
+        else:
+            print("Failed to delete allowlist ")
+            print("Capella API returned " + str(capella_api_response.status_code))
+            print("Full error message")
+            print(capella_api_response.json()['message'])
+
 
 if __name__ == '__main__':
     # Process command line args
@@ -76,5 +78,3 @@ if __name__ == '__main__':
     args = my_parser.parse_args()
 
     main(args)
-
-

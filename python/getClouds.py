@@ -20,7 +20,6 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-
 def main(CmdlineArgs):
     cappella_api = CapellaAPI()
 
@@ -30,7 +29,7 @@ def main(CmdlineArgs):
     else:
         capella_logging('info')
 
-    #Check Capella API status
+    # Check Capella API status
     if cappella_api.api_status().status_code == 200:
         capella_api_response = cappella_api.get_clouds()
 
@@ -47,20 +46,17 @@ def main(CmdlineArgs):
             # keys from the first entry that we got
             cloud_table_headings = list_of_clouds['data'][0].keys()
 
-
             print('Projects')
             print(pretty_table(cloud_table_headings, cloud_table_rows))
 
         else:
-            print("Failed to get clouds " )
+            print("Failed to get clouds ")
             print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])
 
-
     else:
         print("Check Capella API is up.")
-
 
 
 if __name__ == '__main__':

@@ -2,10 +2,7 @@
 
 # Generic/Built-in
 
-
-
 # Other Libs
-
 
 # Owned
 from capellaAPI.CapellaAPICommon import MyParser
@@ -32,15 +29,16 @@ def main(CmdlineArgs):
     else:
         capella_logging('info')
 
-    #Check Capella API status
+    # Check Capella API status
     if cappella_api.api_status().status_code == 200:
         capella_api_response = cappella_api.get_cluster_status(False, CmdlineArgs.ClusterID)
         if capella_api_response.status_code == 200:
-            #Cluster information was found
-            print("Status for cluster with ID " + CmdlineArgs.ClusterID + " is " + capella_api_response.json()['status'])
+            # Cluster information was found
+            print("Status for cluster with ID " + CmdlineArgs.ClusterID + " is " +
+                  capella_api_response.json()['status'])
         else:
             print("Failed to get status for cluster ID " + CmdlineArgs.ClusterID)
-            print("Capella API returned " + str(capella_api_response.status_code) )
+            print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])
 
@@ -48,22 +46,21 @@ def main(CmdlineArgs):
         print("Check Capella API is up.")
 
 
-
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
     my_parser = MyParser(description='Get the status of a cluster running in your cloud')
-    my_parser.ExampleCmdline = """-cid "1478c0f4-07b2-4818-a5e8-d15703ef79b0" """
+    my_parser.ExampleCmdline = "-cid 1478c0f4-07b2-4818-a5e8-d15703ef79b0"
 
     # Add the arguments
 
-    my_parser.add_argument("-cid","--ClusterID",
+    my_parser.add_argument("-cid", "--ClusterID",
                            dest="ClusterID",
                            action='store',
                            required=True,
                            metavar="",
                            type=check_if_valid_uuid,
-                           help="The ID of the cluster " )
+                           help="The ID of the cluster ")
 
     my_parser.add_argument("-d", "--debug",
                            default=False,

@@ -3,7 +3,6 @@
 # Generic/Built-in
 import json
 
-
 # Other Libs
 
 # Owned
@@ -22,8 +21,6 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-
-
 def main(CmdLineArgs):
     cappella_api = CapellaAPI()
 
@@ -33,23 +30,21 @@ def main(CmdLineArgs):
     else:
         capella_logging('info')
 
-    #Check Capella API status
+    # Check Capella API status
     if cappella_api.api_status().status_code == 200:
         capella_api_response = cappella_api.get_cluster_info(True, CmdLineArgs.ClusterID)
         if capella_api_response.status_code == 200:
-            #Cluster information was found
+            # Cluster information was found
             print("Got information for cluster ID " + CmdLineArgs.ClusterID)
-            print(json.dumps(capella_api_response.json(), indent=3 ))
+            print(json.dumps(capella_api_response.json(), indent=3))
         else:
             print("Failed to get information for cluster ID " + CmdLineArgs.ClusterID)
-            print("Capella API returned " + str(capella_api_response.status_code) )
+            print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])
 
-
     else:
         print("Check Capella API is up.")
-
 
 
 if __name__ == '__main__':
@@ -57,7 +52,8 @@ if __name__ == '__main__':
     # Create the parser
 
     my_parser = MyParser(description='Gets information for a cluster running in Couchbase own cloud')
-    my_parser.ExampleCmdline = """With debug on  -cid e50323f2-2c1c-4506-8234-504d5332f400 -d \nWith debug off  -cid e50323f2-2c1c-4506-8234-504d5332f400 """
+    my_parser.ExampleCmdline = "With debug on -cid e50323f2-2c1c-4506-8234-504d5332f400 -d \n" \
+                               "With debug off -cid e50323f2-2c1c-4506-8234-504d5332f400"
 
     # Add the arguments
 

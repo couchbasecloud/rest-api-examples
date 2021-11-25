@@ -63,3 +63,5 @@ class UserBucketAccessListError(CbcAPIError):
 class InvalidUuidError(CbcAPIError):
     #Raised when an invalid uuid is given
     pass
+
+class GenericHTTPError(CbcAPIError):

@@ -20,7 +20,6 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-
 def main(CmdlineArgs):
     cappella_api = CapellaAPI()
 
@@ -32,7 +31,7 @@ def main(CmdlineArgs):
     if cappella_api.api_status().status_code == 200:
         capella_api_response = cappella_api.get_users()
 
-        #Check Capella API status
+        # Check Capella API status
         if capella_api_response.status_code == 200:
             user_table_rows = []
             list_of_users = capella_api_response.json()['data']
@@ -45,15 +44,13 @@ def main(CmdlineArgs):
             print('Users')
             print(pretty_table(user_table_headings, user_table_rows))
         else:
-            print("Failed to get users " )
+            print("Failed to get users ")
             print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])
 
-
     else:
         print("Check Capella API is up.")
-
 
 
 if __name__ == '__main__':

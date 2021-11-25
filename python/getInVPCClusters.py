@@ -2,8 +2,6 @@
 
 # Generic/Built-in
 
-
-
 # Other Libs
 
 
@@ -39,12 +37,12 @@ def main(CmdlineArgs):
         cluster_table_rows = []
         list_of_clusters = capella_api_response.json()
 
-
         # We should have a list of clusters, but just in case, check
         # Then we will build rows to show in a table
         if list_of_clusters is not None:
             for Cluster in list_of_clusters['data']:
-                cluster_table_rows.append([Cluster['name'], Cluster['id'], Cluster['nodes'], Cluster['services']])
+                cluster_table_rows.append([Cluster['name'], Cluster['id'],
+                                           Cluster['nodes'], Cluster['services']])
 
         ClusterTableHeading = ['Name', 'ID', 'Nodes', 'Services']
 
@@ -53,7 +51,7 @@ def main(CmdlineArgs):
         print(pretty_table(ClusterTableHeading, cluster_table_rows))
 
     else:
-        print("Failed to get list of InVPC clusters " )
+        print("Failed to get list of InVPC clusters ")
         print("Capella API returned " + str(capella_api_response.status_code))
         print("Full error message")
         print(capella_api_response.json()["message"])
@@ -76,4 +74,3 @@ if __name__ == '__main__':
     args = my_parser.parse_args()
 
     main(args)
-

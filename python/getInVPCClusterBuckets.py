@@ -3,11 +3,8 @@
 # Generic/Built-in
 
 
-
-
 # Other Libs
 import maya
-
 
 # Owned
 from capellaAPI.CapellaAPICommon import MyParser
@@ -26,7 +23,6 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-
 def main(CmdlineArgs):
     cappella_api = CapellaAPI()
 
@@ -36,7 +32,7 @@ def main(CmdlineArgs):
     else:
         capella_logging('info')
 
-    #Check Capella API status
+    # Check Capella API status
     if cappella_api.api_status().status_code == 200:
         capella_api_response = cappella_api.get_cluster_buckets(CmdlineArgs.ClusterID)
 
@@ -61,15 +57,13 @@ def main(CmdlineArgs):
                 print("No buckets found")
 
         else:
-            print("Failed to get buckets " )
+            print("Failed to get buckets ")
             print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])
 
-
     else:
         print("Check Capella API is up.")
-
 
 
 if __name__ == '__main__':
@@ -79,19 +73,18 @@ if __name__ == '__main__':
     my_parser.ExampleCmdline = """-cid "1478c0f4-07b2-4818-a5e8-d15703ef79b0" """
 
     # Add the arguments
-    my_parser.add_argument("-cid","--ClusterID",
+    my_parser.add_argument("-cid", "--ClusterID",
                            dest="ClusterID",
                            action='store',
                            required=True,
                            metavar="",
                            type=check_if_valid_uuid,
-                           help="The ID of the cluster " )
+                           help="The ID of the cluster ")
 
     my_parser.add_argument("-d", "--debug",
                            default=False,
                            action="store_true",
                            help="Turn on logging at debug level")
-
 
     args = my_parser.parse_args()
 

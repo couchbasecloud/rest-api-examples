@@ -20,7 +20,6 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-
 def main(CmdlineArgs):
     cappella_api = CapellaAPI()
 
@@ -42,7 +41,7 @@ def main(CmdlineArgs):
         if cluster_entries is not None:
             # Check to see if we got any users back
             if len(cluster_entries) > 0:
-                ClusterTableHeading = ['Environment', 'Name', 'Cluster ID', 'Cloud ID', 'Project ID']
+                cluster_table_heading = ['Environment', 'Name', 'Cluster ID', 'Cloud ID', 'Project ID']
                 for cluster_entry in cluster_entries:
                     clusterEnvironment = cluster_entry['environment']
                     clusterID = cluster_entry['id']
@@ -59,7 +58,7 @@ def main(CmdlineArgs):
 
                 # Display the table, which uses pretty table to make things easier
                 print('Capella Clusters ')
-                print(pretty_table(ClusterTableHeading, clusters_table_rows))
+                print(pretty_table(cluster_table_heading, clusters_table_rows))
 
             else:
                 print("No users found for this cluster")

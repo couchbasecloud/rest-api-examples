@@ -42,7 +42,7 @@ def main(CmdLineArgs):
         "servers": [
             {
                 "services": [
-                    "data","index","query","search"
+                    "data", "index", "query", "search"
                 ],
                 "size": 3,
                 "aws": {
@@ -56,14 +56,15 @@ def main(CmdLineArgs):
 
     # Create the cluster, pass the configuration
     # and indicate that this cluster will run in the customers own cloud by calling with False
-    capella_api_response = cappella_api.create_cluster(False,cluster_configuration)
+    capella_api_response = cappella_api.create_cluster(False, cluster_configuration)
 
     # Check response code , 201 is success
     if capella_api_response.status_code == 202:
         print("Creating cluster ")
-        print("Check deployment status here: " + cappella_api.api_base_url + capella_api_response.headers['Location'] + '/status')
+        print("Check deployment status here: " + cappella_api.api_base_url +
+              capella_api_response.headers['Location'] + '/status')
     else:
-        print("Failed to create cluster " )
+        print("Failed to create cluster ")
         print("Capella API returned " + str(capella_api_response.status_code))
         print("Full error message")
         print(capella_api_response.json()["message"])
@@ -101,10 +102,6 @@ if __name__ == '__main__':
                            action="store_true",
                            help="Turn on logging at debug level")
 
-
-
     args = my_parser.parse_args()
 
     main(args)
-
-

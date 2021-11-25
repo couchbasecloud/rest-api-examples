@@ -37,7 +37,7 @@ def main(CmdLineArgs):
 
     # Check Capella API status
     if capella_api.api_status().status_code == 200:
-        capella_api_response = capella_api.delete_cluster_user(False,CmdLineArgs.clusterID, CmdLineArgs.UserName)
+        capella_api_response = capella_api.delete_cluster_user(False, CmdLineArgs.clusterID, CmdLineArgs.UserName)
 
         if capella_api_response.status_code == 204:
             print("Cluster user is deleted")
@@ -82,5 +82,3 @@ if __name__ == '__main__':
     args = my_parser.parse_args()
 
     main(args)
-
-

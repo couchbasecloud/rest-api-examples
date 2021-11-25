@@ -13,15 +13,12 @@ from requests.auth import AuthBase
 # Owned
 from capellaAPI.CapellaExceptions import *
 
-
 # EnvVars.py sets the environmental variables used here
 # If EnvVars.py does not exist, then we'll try the OS environment variables instead
 try:
     import capellaAPI.EnvVars
 except ImportError:
     pass
-
-
 
 __author__ = 'Jonathan Giffard'
 __copyright__ = 'Copyright 2021, Couchbase'
@@ -33,20 +30,14 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-
 class CapellaAPIAuth(AuthBase):
-    """
-    Extends requests AuthBase for
-    Couchbase Cloud API Authentication Handler.
+    # Extends requests AuthBase for
+    # Couchbase Cloud API Authentication Handler.
 
-    """
-
-    def __init__(self ):
-        """ Create an authentication handler for Couchbase Cloud APIs
-        :param str access_key: access key for Couchbase Cloud
-        :param str secret_key: secret key for Couchbase Cloud
-
-        """
+    def __init__(self):
+        # Create an authentication handler for Couchbase Cloud APIs
+        # :param str access_key: access key for Couchbase Cloud
+        # :param str secret_key: secret key for Couchbase Cloud
 
         # Read the values from the environmental variables
         if os.environ.get('cbc_access_key') is None:
@@ -59,7 +50,6 @@ class CapellaAPIAuth(AuthBase):
         else:
             self.secret_key = os.environ.get('cbc_secret_key')
 
-
     def __call__(self, r):
         # r = request itself
 
@@ -68,7 +58,7 @@ class CapellaAPIAuth(AuthBase):
 
         # This is the endpoint being called
         # Split out from the entire URL
-        cbc_api_endpoint = r.url.split(".com",1)[-1]
+        cbc_api_endpoint = r.url.split(".com", 1)[-1]
 
         # The method being used
         cbc_api_method = r.method
@@ -90,8 +80,7 @@ class CapellaAPIAuth(AuthBase):
         }
 
         # Add our key:values to the request header
-        r.headers.update( cbc_api_request_headers )
-
+        r.headers.update(cbc_api_request_headers)
 
         # Return the request back
         return r

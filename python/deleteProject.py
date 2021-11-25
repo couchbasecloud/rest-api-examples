@@ -5,13 +5,11 @@
 # Other Libs
 
 
-
 # Owned
 from capellaAPI.CapellaAPICommon import MyParser
 from capellaAPI.CapellaAPICommon import capella_logging
 from capellaAPI.CapellaAPICommon import check_if_valid_uuid
 from capellaAPI.CapellaAPI import CapellaAPI
-
 
 __author__ = 'Jonathan Giffard'
 __copyright__ = 'Copyright 2021, Couchbase'
@@ -23,7 +21,6 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-
 def main(CmdLineArgs):
     cappella_api = CapellaAPI()
 
@@ -33,16 +30,15 @@ def main(CmdLineArgs):
     else:
         capella_logging('info')
 
-
-    #Check Capella API status
+    # Check Capella API status
     if cappella_api.api_status().status_code == 200:
         capella_api_response = cappella_api.delete_project(CmdLineArgs.projectID)
         if capella_api_response.status_code == 204:
-            #Our project was created
+            # Our project was created
             print("Deleted project with ID " + CmdLineArgs.projectID)
         else:
             print("Failed to delete project with ID " + CmdLineArgs.projectID)
-            print("Capella API returned " + str(capella_api_response.status_code) )
+            print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])
 
@@ -50,12 +46,12 @@ def main(CmdLineArgs):
         print("Check Capella API is up.")
 
 
-
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
     my_parser = MyParser(description='Deletes a project from Couchbase Capella')
-    my_parser.ExampleCmdline = "-pid e50323f2-2c1c-4506-8234-504d5332f400 \n With debug  -pid e50323f2-2c1c-4506-8234-504d5332f400 -d"
+    my_parser.ExampleCmdline = '-pid e50323f2-2c1c-4506-8234-504d5332f400 \n ' \
+                               'With debug  -pid e50323f2-2c1c-4506-8234-504d5332f400 -d'
 
     # Add the arguments
 
@@ -71,7 +67,6 @@ if __name__ == '__main__':
                            default=False,
                            action="store_true",
                            help="Turn on logging at debug level")
-
 
     args = my_parser.parse_args()
 

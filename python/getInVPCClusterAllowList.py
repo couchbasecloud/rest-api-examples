@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Generic/Built-in
-from datetime import timedelta, datetime
 
-import json
 
 # Other Libs
 import maya
@@ -25,7 +23,6 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-
 def main(CmdlineArgs):
     cappella_api = CapellaAPI()
 
@@ -35,12 +32,13 @@ def main(CmdlineArgs):
     else:
         capella_logging('info')
 
-    #Check Capella API status
+    # Check Capella API status
     if cappella_api.api_status().status_code == 200:
         capella_api_response = cappella_api.get_cluster_allowlist(CmdlineArgs.ClusterID)
         # Check response code , 200 is success
         if capella_api_response.status_code == 200:
-            allowlist_table_header = ["cidrBlock","comment","createdAt","duration","expiresAt","ruleType","state","updatedAt"]
+            allowlist_table_header = ["cidrBlock", "comment", "createdAt", "duration",
+                                      "expiresAt", "ruleType", "state", "updatedAt"]
             allowlist_table_rows = []
             cluster_allowlist = capella_api_response.json()
 
@@ -50,13 +48,13 @@ def main(CmdlineArgs):
                 # Check to see if we got any buckets back
                 if len(cluster_allowlist) > 0:
                     for allowlist in cluster_allowlist:
-                        #Make the two key:values with time stamps look nicer
+                        # Make the two key:values with time stamps look nicer
                         allowlist['createdAt'] = maya.parse(allowlist['createdAt'])
                         allowlist['updatedAt'] = maya.parse(allowlist['updatedAt'])
 
                         if allowlist['ruleType'] == "permanent":
-                            #These need to go into the right place in the dictionary
-                            #or the table is messed up
+                            # These need to go into the right place in the dictionary
+                            # or the table is messed up
                             new_allowlist = {}
                             for k in allowlist:
                                 new_allowlist[k] = allowlist[k]
@@ -69,8 +67,6 @@ def main(CmdlineArgs):
 
                         allowlist_table_rows.append(allowlist.values())
 
-
-
                     print('Allowlist')
                     print(pretty_table(allowlist_table_header, allowlist_table_rows))
                 else:
@@ -79,22 +75,20 @@ def main(CmdlineArgs):
                 print("Allowlist not found")
 
         else:
-            print("Failed to get allowlist " )
+            print("Failed to get allowlist ")
             print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])
 
-
     else:
         print("Check Capella API is up.")
-
 
 
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
     my_parser = MyParser(description='Gets the allow list for a cluster running in your cloud')
-    my_parser.ExampleCmdline = """-cid "1478c0f4-07b2-4818-a5e8-d15703ef79b0" """
+    my_parser.ExampleCmdline = "-cid 1478c0f4-07b2-4818-a5e8-d15703ef79b0"
 
     # Add the arguments
     my_parser.add_argument('-cid', '--ClusterID',
@@ -108,7 +102,6 @@ if __name__ == '__main__':
                            default=False,
                            action="store_true",
                            help="Turn on logging at debug level")
-
 
     args = my_parser.parse_args()
 
