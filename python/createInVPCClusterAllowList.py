@@ -59,8 +59,6 @@ def main(CmdlineArgs):
 
 
 def allow_list_rule_type(rule_type):
-    # new_allow_list_rule_error = AllowlistRuleError()
-
     if rule_type == 'temporary':
         return (rule_type)
     elif rule_type == 'permanent':
