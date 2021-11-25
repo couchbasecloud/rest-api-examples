@@ -25,20 +25,20 @@ __status__ = 'Dev'
 # message with an example
 
 
-def main(CmdLineArgs):
+def main(cmd_line_args):
 
     cappella_api = CapellaAPI()
 
-    if CmdLineArgs.debug:
+    if cmd_line_args.debug:
         capella_logging('debug')
         cappella_api.set_logging_level('DEBUG')
     else:
         capella_logging('info')
 
     cluster_configuration = {
-        "cloudId": CmdLineArgs.cloudID,
-        "name": CmdLineArgs.clusterName,
-        "projectId": CmdLineArgs.projectID,
+        "cloudId": cmd_line_args.cloudID,
+        "name": cmd_line_args.clusterName,
+        "projectId": cmd_line_args.projectID,
         "servers": [
             {
                 "services": [

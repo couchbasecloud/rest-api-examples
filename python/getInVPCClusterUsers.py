@@ -24,16 +24,16 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-def main(CmdlineArgs):
+def main(cmd_line_args):
     cappella_api = CapellaAPI()
 
-    if CmdlineArgs.debug:
+    if cmd_line_args.debug:
         capella_logging('debug')
         cappella_api.set_logging_level('DEBUG')
     else:
         capella_logging('info')
 
-    capella_api_response = cappella_api.get_cluster_users(False, CmdlineArgs.ClusterID)
+    capella_api_response = cappella_api.get_cluster_users(False, cmd_line_args.ClusterID)
 
     # Check response code , 200 is success
     if capella_api_response.status_code == 200:

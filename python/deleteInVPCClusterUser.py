@@ -25,10 +25,10 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-def main(CmdLineArgs):
+def main(cmd_line_args):
     capella_api = CapellaAPI()
 
-    if CmdLineArgs.debug:
+    if cmd_line_args.debug:
         capella_logging('debug')
         capella_api.set_logging_level('DEBUG')
     else:
@@ -37,7 +37,7 @@ def main(CmdLineArgs):
 
     # Check Capella API status
     if capella_api.api_status().status_code == 200:
-        capella_api_response = capella_api.delete_cluster_user(False, CmdLineArgs.clusterID, CmdLineArgs.UserName)
+        capella_api_response = capella_api.delete_cluster_user(False, cmd_line_args.clusterID, cmd_line_args.UserName)
 
         if capella_api_response.status_code == 204:
             print("Cluster user is deleted")

@@ -23,23 +23,23 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-def main(CmdLineArgs):
+def main(cmd_line_args):
     capella_api = CapellaAPI()
 
-    if CmdLineArgs.debug:
+    if cmd_line_args.debug:
         capella_logging('debug')
         capella_api.set_logging_level('DEBUG')
     else:
         capella_logging('INFO')
 
     cluster_user_struct = {
-        "password": CmdLineArgs.Password,
-        "username": CmdLineArgs.UserName,
+        "password": cmd_line_args.Password,
+        "username": cmd_line_args.UserName,
         "buckets": []
     }
 
     # Go through each entry
-    for bucket_and_access_entry in CmdLineArgs.Buckets.split(','):
+    for bucket_and_access_entry in cmd_line_args.Buckets.split(','):
 
         cluster_user_bucket_access_struct = {"bucketName": "", "bucketAccess": []}
 
@@ -74,7 +74,7 @@ def main(CmdLineArgs):
 
     # Check Capella API status
     if capella_api.api_status().status_code == 200:
-        capella_api_response = capella_api.create_cluster_user(CmdLineArgs.ClusterID, cluster_user_struct)
+        capella_api_response = capella_api.create_cluster_user(cmd_line_args.ClusterID, cluster_user_struct)
 
         if capella_api_response.status_code == 201:
             print("Cluster user is being created")

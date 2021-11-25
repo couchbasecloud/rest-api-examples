@@ -21,10 +21,10 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-def main(CmdLineArgs):
+def main(cmd_line_args):
     cappella_api = CapellaAPI()
 
-    if CmdLineArgs.debug:
+    if cmd_line_args.debug:
         capella_logging('debug')
         cappella_api.set_logging_level('DEBUG')
     else:
@@ -32,13 +32,13 @@ def main(CmdLineArgs):
 
     # Check Capella API status
     if cappella_api.api_status().status_code == 200:
-        capella_api_response = cappella_api.create_project(dict(name=CmdLineArgs.projectName))
+        capella_api_response = cappella_api.create_project(dict(name=cmd_line_args.projectName))
         if capella_api_response.status_code == 201:
             # Our project was created
-            print("Created project " + CmdLineArgs.projectName + " with ID of "
+            print("Created project " + cmd_line_args.projectName + " with ID of "
                   + capella_api_response.json()['id'])
         else:
-            print("Failed to create project " + CmdLineArgs.project)
+            print("Failed to create project " + cmd_line_args.project)
             print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])

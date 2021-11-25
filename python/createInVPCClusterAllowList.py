@@ -21,30 +21,30 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-def main(CmdlineArgs):
+def main(cmd_line_args):
     cappella_api = CapellaAPI()
 
-    if CmdlineArgs.debug:
+    if cmd_line_args.debug:
         capella_logging('debug')
         cappella_api.set_logging_level('DEBUG')
     else:
         capella_logging('info')
 
     cluster_allowlist_configuration = {
-        "cidrBlock": CmdlineArgs.CidrBlock,
-        "ruleType": CmdlineArgs.RuleType,
+        "cidrBlock": cmd_line_args.CidrBlock,
+        "ruleType": cmd_line_args.RuleType,
 
     }
 
-    if CmdlineArgs.RuleType == 'temporary':
-        cluster_allowlist_configuration["duration"] = str(CmdlineArgs.Duration) + "h0m0s"
+    if cmd_line_args.RuleType == 'temporary':
+        cluster_allowlist_configuration["duration"] = str(cmd_line_args.Duration) + "h0m0s"
 
-    if CmdlineArgs.Comment is not None:
-        cluster_allowlist_configuration["comment"] = CmdlineArgs.Comment
+    if cmd_line_args.Comment is not None:
+        cluster_allowlist_configuration["comment"] = cmd_line_args.Comment
 
     # Check Capella API status
     if cappella_api.api_status().status_code == 200:
-        capella_api_response = cappella_api.create_cluster_allowlist(CmdlineArgs.ClusterID,
+        capella_api_response = cappella_api.create_cluster_allowlist(cmd_line_args.ClusterID,
                                                                      cluster_allowlist_configuration)
 
         if capella_api_response.status_code == 202:

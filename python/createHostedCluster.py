@@ -21,11 +21,11 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-def main(CmdLineArgs):
+def main(cmd_line_args):
 
     cappella_api = CapellaAPI()
 
-    if CmdLineArgs.debug:
+    if cmd_line_args.debug:
         capella_logging('debug')
         cappella_api.set_logging_level('DEBUG')
     else:
@@ -33,9 +33,9 @@ def main(CmdLineArgs):
 
     cluster_configuration = {
         "environment": "hosted",
-        "clusterName": CmdLineArgs.clusterName,
+        "clusterName": cmd_line_args.clusterName,
         "description": "Example hosted cluster create from Public API",
-        "projectId": CmdLineArgs.projectID,
+        "projectId": cmd_line_args.projectID,
         "place": {
             "singleAZ": False,
             "hosted": {

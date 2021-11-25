@@ -21,10 +21,10 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-def main(CmdLineArgs):
+def main(cmd_line_args):
     cappella_api = CapellaAPI()
 
-    if CmdLineArgs.debug:
+    if cmd_line_args.debug:
         capella_logging('debug')
         cappella_api.set_logging_level('DEBUG')
     else:
@@ -32,12 +32,12 @@ def main(CmdLineArgs):
 
     # Check Capella API status
     if cappella_api.api_status().status_code == 200:
-        capella_api_response = cappella_api.delete_project(CmdLineArgs.projectID)
+        capella_api_response = cappella_api.delete_project(cmd_line_args.projectID)
         if capella_api_response.status_code == 204:
             # Our project was created
-            print("Deleted project with ID " + CmdLineArgs.projectID)
+            print("Deleted project with ID " + cmd_line_args.projectID)
         else:
-            print("Failed to delete project with ID " + CmdLineArgs.projectID)
+            print("Failed to delete project with ID " + cmd_line_args.projectID)
             print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])

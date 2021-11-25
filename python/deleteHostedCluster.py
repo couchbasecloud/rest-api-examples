@@ -21,10 +21,10 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-def main(CmdLineArgs):
+def main(cmd_line_args):
     cappella_api = CapellaAPI()
 
-    if CmdLineArgs.debug:
+    if cmd_line_args.debug:
         capella_logging('debug')
         cappella_api.set_logging_level('DEBUG')
     else:
@@ -32,7 +32,7 @@ def main(CmdLineArgs):
 
     # Delete the cluster  and indicate that this cluster will run in the Couchbase cloud
     # by calling with True
-    capella_api_response = cappella_api.delete_cluster(True, CmdLineArgs.clusterID)
+    capella_api_response = cappella_api.delete_cluster(True, cmd_line_args.clusterID)
 
     # Check response code , 201 is success
     if capella_api_response.status_code == 202:

@@ -20,10 +20,10 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-def main(CmdlineArgs):
+def main(cmd_line_args):
     cappella_api = CapellaAPI()
 
-    if CmdlineArgs.debug:
+    if cmd_line_args.debug:
         capella_logging('debug')
         cappella_api.set_logging_level('DEBUG')
     else:
@@ -36,8 +36,8 @@ def main(CmdlineArgs):
             user_table_rows = []
             list_of_users = capella_api_response.json()['data']
 
-            for User in list_of_users:
-                user_table_rows.append([User['name'], User['email'], User['id']])
+            for user in list_of_users:
+                user_table_rows.append([user['name'], user['email'], user['id']])
 
             # Table heading / rows for the output
             user_table_headings = ['Name', 'Email', 'ID']

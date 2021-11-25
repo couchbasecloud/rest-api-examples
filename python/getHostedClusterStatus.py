@@ -22,10 +22,10 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-def main(CmdLineArgs):
+def main(cmd_line_args):
     cappella_api = CapellaAPI()
 
-    if CmdLineArgs.debug:
+    if cmd_line_args.debug:
         capella_logging('debug')
         cappella_api.set_logging_level('DEBUG')
     else:
@@ -33,15 +33,15 @@ def main(CmdLineArgs):
 
     # Check Capella API status
     if cappella_api.api_status().status_code == 200:
-        capella_api_response = cappella_api.get_cluster_status(True, CmdLineArgs.ClusterID)
+        capella_api_response = cappella_api.get_cluster_status(True, cmd_line_args.ClusterID)
 
         if capella_api_response.status_code == 200:
             # Cluster information was found
             print(
-                "Status for cluster with ID " + CmdLineArgs.ClusterID + " is " +
+                "Status for cluster with ID " + cmd_line_args.ClusterID + " is " +
                 capella_api_response.json()['status'])
         else:
-            print("Failed to get status for cluster ID " + CmdLineArgs.ClusterID)
+            print("Failed to get status for cluster ID " + cmd_line_args.ClusterID)
             print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])

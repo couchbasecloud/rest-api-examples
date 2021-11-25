@@ -20,10 +20,10 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-def main(CmdlineArgs):
+def main(cmd_line_args):
     cappella_api = CapellaAPI()
 
-    if CmdlineArgs.debug:
+    if cmd_line_args.debug:
         capella_logging('debug')
         cappella_api.set_logging_level('DEBUG')
     else:

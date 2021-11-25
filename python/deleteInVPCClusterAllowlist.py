@@ -21,21 +21,21 @@ __email__ = 'jonathan.giffard@couchbase.com'
 __status__ = 'Dev'
 
 
-def main(CmdLineArgs):
+def main(cmd_line_args):
     cappella_api = CapellaAPI()
 
-    if CmdLineArgs.debug:
+    if cmd_line_args.debug:
         capella_logging('debug')
         cappella_api.set_logging_level('DEBUG')
     else:
         capella_logging('info')
 
     bucket_configuration = {
-        "cidrBlock": CmdLineArgs.cidrBlock
+        "cidrBlock": cmd_line_args.cidrBlock
     }
 
     if cappella_api.api_status().status_code == 200:
-        capella_api_response = cappella_api.delete_cluster_allowlist(CmdLineArgs.clusterID, bucket_configuration)
+        capella_api_response = cappella_api.delete_cluster_allowlist(cmd_line_args.clusterID, bucket_configuration)
 
         # Did the delete work?
         if capella_api_response.status_code == 204:
