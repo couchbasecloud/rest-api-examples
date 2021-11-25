@@ -46,7 +46,7 @@ class CapellaAPIRequests:
         if os.environ.get('api_base_url') is None:
             raise MissingBaseURLError('Environmental variable api_base_url has not been set')
         else:
-            self.api_base_url = os.environ.get('api_base_url')
+            self.API_BASE_URL = os.environ.get('api_base_url')
 
         self._log = logging.getLogger(__name__)
 
@@ -64,7 +64,7 @@ class CapellaAPIRequests:
         self._log.info(api_endpoint)
 
         try:
-            cbc_api_response = self.network_session.get(self.api_base_url + api_endpoint, auth=CapellaAPIAuth())
+            cbc_api_response = self.network_session.get(self.API_BASE_URL + api_endpoint, auth=CapellaAPIAuth())
             self._log.debug(cbc_api_response.content)
 
         except requests.exceptions.HTTPError:
@@ -87,7 +87,7 @@ class CapellaAPIRequests:
         self._log.info(api_endpoint)
 
         try:
-            cbc_api_response = self.network_session.post(self.api_base_url + api_endpoint,
+            cbc_api_response = self.network_session.post(self.API_BASE_URL + api_endpoint,
                                                          json=request_body, auth=CapellaAPIAuth())
             self._log.debug(cbc_api_response.content)
 
@@ -109,7 +109,7 @@ class CapellaAPIRequests:
         self._log.info(api_endpoint)
 
         try:
-            cbc_api_response = self.network_session.put(self.api_base_url + api_endpoint,
+            cbc_api_response = self.network_session.put(self.API_BASE_URL + api_endpoint,
                                                         json=request_body, auth=CapellaAPIAuth())
             self._log.debug(cbc_api_response.content)
 
@@ -132,10 +132,10 @@ class CapellaAPIRequests:
 
         try:
             if request_body is None:
-                cbc_api_response = self.network_session.delete(self.api_base_url +
+                cbc_api_response = self.network_session.delete(self.API_BASE_URL +
                                                                api_endpoint, auth=CapellaAPIAuth())
             else:
-                cbc_api_response = self.network_session.delete(self.api_base_url +
+                cbc_api_response = self.network_session.delete(self.API_BASE_URL +
                                                                api_endpoint, json=request_body, auth=CapellaAPIAuth())
             self._log.debug(cbc_api_response.content)
 

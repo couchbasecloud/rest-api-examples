@@ -43,12 +43,12 @@ class CapellaAPIAuth(AuthBase):
         if os.environ.get('cbc_access_key') is None:
             raise MissingAccessKeyError
         else:
-            self.access_key = os.environ.get('cbc_access_key')
+            self.ACCESS_KEY = os.environ.get('cbc_access_key')
 
         if os.environ.get('cbc_secret_key') is None:
             raise MissingSecretKeyError
         else:
-            self.secret_key = os.environ.get('cbc_secret_key')
+            self.SECRET_KEY = os.environ.get('cbc_secret_key')
 
     def __call__(self, r):
         # r = request itself
@@ -67,7 +67,7 @@ class CapellaAPIAuth(AuthBase):
         cbc_api_message = cbc_api_method + '\n' + cbc_api_endpoint + '\n' + cbc_api_now
 
         # This is part of the bearer token used for auth with the API.
-        cbc_api_signature = base64.b64encode(hmac.new(bytes(self.secret_key, 'utf-8'), bytes(cbc_api_message, 'utf-8'),
+        cbc_api_signature = base64.b64encode(hmac.new(bytes(self.SECRET_KEY, 'utf-8'), bytes(cbc_api_message, 'utf-8'),
                                                       digestmod=hashlib.sha256).digest())
 
         # In the header we need to have Authorization and Couchbase-Timestamp.
@@ -75,7 +75,7 @@ class CapellaAPIAuth(AuthBase):
         # seperated by a :
         # Couchbase-Timestamp is the epoch time that we used when calculating the signature
         cbc_api_request_headers = {
-            'Authorization': 'Bearer ' + self.access_key + ':' + cbc_api_signature.decode(),
+            'Authorization': 'Bearer ' + self.ACCESS_KEY + ':' + cbc_api_signature.decode(),
             'Couchbase-Timestamp': str(cbc_api_now)
         }
 
