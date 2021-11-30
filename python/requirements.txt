@@ -1,0 +1,9 @@
+requests==2.26.0
+DateTime==4.3
+texttable~=1.6.3
+maya~=0.6.1
+fe~=0.1.dev0
+
+
+
+
