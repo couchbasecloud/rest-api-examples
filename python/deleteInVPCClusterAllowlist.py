@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # Generic/Built-in
 
-
 # Other Libs
 
 
 # Owned
 from capellaAPI.CapellaAPICommon import MyParser
 from capellaAPI.CapellaAPICommon import capella_logging
+from capellaAPI.CapellaAPICommon import check_if_valid_uuid
 from capellaAPI.CapellaAPI import CapellaAPI
 
 __author__ = 'Jonathan Giffard'
@@ -29,39 +29,45 @@ def main(cmd_line_args):
     else:
         capella_logging('info')
 
-    # Check Capella API status
+    bucket_configuration = {
+        "cidrBlock": cmd_line_args.cidrBlock
+    }
+
     if cappella_api.api_status().status_code == 200:
-        capella_api_response = cappella_api.create_project(dict(name=cmd_line_args.projectName))
-        if capella_api_response.status_code == 201:
-            # Our project was created
-            print("Created project " + cmd_line_args.projectName + " with ID of "
-                  + capella_api_response.json()['id'])
+        capella_api_response = cappella_api.delete_cluster_allowlist(cmd_line_args.clusterID, bucket_configuration)
+
+        # Did the delete work?
+        if capella_api_response.status_code == 204:
+            print("Deleting allowlist ")
         else:
-            print("Failed to create project " + cmd_line_args.project)
+            print("Failed to delete allowlist ")
             print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
-            print(capella_api_response.json()["message"])
-
-    else:
-        print("Check Capella API is up.")
+            print(capella_api_response.json()['message'])
 
 
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
-    my_parser = MyParser(description='create a project in Couchbase Capella')
-    my_parser.ExampleCmdline = """Create new project:  -n "My new project"\n
-    With debug on -p "My new project" -d """
+    my_parser = MyParser(description='Deletes an allowlist from a cluster running in your cloud')
+    my_parser.ExampleCmdline = "-cid d157a069-9451-4188-a4b1-8be2920db094 -cb 10.0.0.1"
 
     # Add the arguments
 
-    my_parser.add_argument('-pn', '--projectName',
-                           dest='projectName',
+    my_parser.add_argument('-cid', '--clusterID',
+                           dest="clusterID",
+                           metavar="",
                            action='store',
                            required=True,
-                           type=str,
+                           type=check_if_valid_uuid,
+                           help='The ID of the cluster')
+
+    my_parser.add_argument('-cb', '--cidrBlock',
+                           dest="cidrBlock",
                            metavar="",
-                           help='Name of the project to create')
+                           action='store',
+                           required=True,
+                           help='The cidr block of the allow list to delete')
 
     my_parser.add_argument("-d", "--debug",
                            default=False,

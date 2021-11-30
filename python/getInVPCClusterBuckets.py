@@ -3,11 +3,13 @@
 
 
 # Other Libs
-
+import maya
 
 # Owned
 from capellaAPI.CapellaAPICommon import MyParser
 from capellaAPI.CapellaAPICommon import capella_logging
+from capellaAPI.CapellaAPICommon import pretty_table
+from capellaAPI.CapellaAPICommon import check_if_valid_uuid
 from capellaAPI.CapellaAPI import CapellaAPI
 
 __author__ = 'Jonathan Giffard'
@@ -31,13 +33,30 @@ def main(cmd_line_args):
 
     # Check Capella API status
     if cappella_api.api_status().status_code == 200:
-        capella_api_response = cappella_api.create_project(dict(name=cmd_line_args.projectName))
-        if capella_api_response.status_code == 201:
-            # Our project was created
-            print("Created project " + cmd_line_args.projectName + " with ID of "
-                  + capella_api_response.json()['id'])
+        capella_api_response = cappella_api.get_cluster_buckets(cmd_line_args.ClusterID)
+
+        # Check response code , 200 is success
+        if capella_api_response.status_code == 200:
+            bucket_table_rows = []
+            list_of_buckets = capella_api_response.json()
+
+            # We should have a list of buckets, but just in case, check
+            # Then we will build rows to show in a table
+            if list_of_buckets is not None:
+                # Check to see if we got any buckets back
+                if len(list_of_buckets) > 0:
+                    for bucket in list_of_buckets:
+                        bucket_table_rows.append(bucket.values())
+
+                    print('Buckets')
+                    print(pretty_table(list_of_buckets[0].keys(), bucket_table_rows))
+                else:
+                    print("No buckets found")
+            else:
+                print("No buckets found")
+
         else:
-            print("Failed to create project " + cmd_line_args.project)
+            print("Failed to get buckets ")
             print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])
@@ -49,19 +68,17 @@ def main(cmd_line_args):
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
-    my_parser = MyParser(description='create a project in Couchbase Capella')
-    my_parser.ExampleCmdline = """Create new project:  -n "My new project"\n
-    With debug on -p "My new project" -d """
+    my_parser = MyParser(description='Get buckets for a cluster running in your cloud')
+    my_parser.ExampleCmdline = """-cid "1478c0f4-07b2-4818-a5e8-d15703ef79b0" """
 
     # Add the arguments
-
-    my_parser.add_argument('-pn', '--projectName',
-                           dest='projectName',
+    my_parser.add_argument("-cid", "--ClusterID",
+                           dest="ClusterID",
                            action='store',
                            required=True,
-                           type=str,
                            metavar="",
-                           help='Name of the project to create')
+                           type=check_if_valid_uuid,
+                           help="The ID of the cluster ")
 
     my_parser.add_argument("-d", "--debug",
                            default=False,

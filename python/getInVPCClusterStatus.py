@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 # Generic/Built-in
 
-
 # Other Libs
-
 
 # Owned
 from capellaAPI.CapellaAPICommon import MyParser
 from capellaAPI.CapellaAPICommon import capella_logging
+from capellaAPI.CapellaAPICommon import check_if_valid_uuid
 from capellaAPI.CapellaAPI import CapellaAPI
 
 __author__ = 'Jonathan Giffard'
@@ -31,13 +30,13 @@ def main(cmd_line_args):
 
     # Check Capella API status
     if cappella_api.api_status().status_code == 200:
-        capella_api_response = cappella_api.create_project(dict(name=cmd_line_args.projectName))
-        if capella_api_response.status_code == 201:
-            # Our project was created
-            print("Created project " + cmd_line_args.projectName + " with ID of "
-                  + capella_api_response.json()['id'])
+        capella_api_response = cappella_api.get_cluster_status(False, cmd_line_args.ClusterID)
+        if capella_api_response.status_code == 200:
+            # Cluster information was found
+            print("Status for cluster with ID " + cmd_line_args.ClusterID + " is " +
+                  capella_api_response.json()['status'])
         else:
-            print("Failed to create project " + cmd_line_args.project)
+            print("Failed to get status for cluster ID " + cmd_line_args.ClusterID)
             print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])
@@ -49,19 +48,18 @@ def main(cmd_line_args):
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
-    my_parser = MyParser(description='create a project in Couchbase Capella')
-    my_parser.ExampleCmdline = """Create new project:  -n "My new project"\n
-    With debug on -p "My new project" -d """
+    my_parser = MyParser(description='Get the status of a cluster running in your cloud')
+    my_parser.ExampleCmdline = "-cid 1478c0f4-07b2-4818-a5e8-d15703ef79b0"
 
     # Add the arguments
 
-    my_parser.add_argument('-pn', '--projectName',
-                           dest='projectName',
+    my_parser.add_argument("-cid", "--ClusterID",
+                           dest="ClusterID",
                            action='store',
                            required=True,
-                           type=str,
                            metavar="",
-                           help='Name of the project to create')
+                           type=check_if_valid_uuid,
+                           help="The ID of the cluster ")
 
     my_parser.add_argument("-d", "--debug",
                            default=False,

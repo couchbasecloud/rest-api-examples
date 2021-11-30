@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 # Generic/Built-in
 
-
 # Other Libs
-
 
 # Owned
 from capellaAPI.CapellaAPICommon import MyParser
 from capellaAPI.CapellaAPICommon import capella_logging
+from capellaAPI.CapellaAPICommon import pretty_table
 from capellaAPI.CapellaAPI import CapellaAPI
 
 __author__ = 'Jonathan Giffard'
@@ -28,16 +27,23 @@ def main(cmd_line_args):
         cappella_api.set_logging_level('DEBUG')
     else:
         capella_logging('info')
-
-    # Check Capella API status
     if cappella_api.api_status().status_code == 200:
-        capella_api_response = cappella_api.create_project(dict(name=cmd_line_args.projectName))
-        if capella_api_response.status_code == 201:
-            # Our project was created
-            print("Created project " + cmd_line_args.projectName + " with ID of "
-                  + capella_api_response.json()['id'])
+        capella_api_response = cappella_api.get_users()
+
+        # Check Capella API status
+        if capella_api_response.status_code == 200:
+            user_table_rows = []
+            list_of_users = capella_api_response.json()['data']
+
+            for user in list_of_users:
+                user_table_rows.append([user['name'], user['email'], user['id']])
+
+            # Table heading / rows for the output
+            user_table_headings = ['Name', 'Email', 'ID']
+            print('Users')
+            print(pretty_table(user_table_headings, user_table_rows))
         else:
-            print("Failed to create project " + cmd_line_args.project)
+            print("Failed to get users ")
             print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])
@@ -49,20 +55,11 @@ def main(cmd_line_args):
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
-    my_parser = MyParser(description='create a project in Couchbase Capella')
-    my_parser.ExampleCmdline = """Create new project:  -n "My new project"\n
-    With debug on -p "My new project" -d """
+
+    my_parser = MyParser(description='List users defined in Couchbase Capella')
+    my_parser.ExampleCmdline = """With debug on -d \nWith debug off """
 
     # Add the arguments
-
-    my_parser.add_argument('-pn', '--projectName',
-                           dest='projectName',
-                           action='store',
-                           required=True,
-                           type=str,
-                           metavar="",
-                           help='Name of the project to create')
-
     my_parser.add_argument("-d", "--debug",
                            default=False,
                            action="store_true",

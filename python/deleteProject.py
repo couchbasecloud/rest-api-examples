@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # Generic/Built-in
 
-
 # Other Libs
 
 
 # Owned
 from capellaAPI.CapellaAPICommon import MyParser
 from capellaAPI.CapellaAPICommon import capella_logging
+from capellaAPI.CapellaAPICommon import check_if_valid_uuid
 from capellaAPI.CapellaAPI import CapellaAPI
 
 __author__ = 'Jonathan Giffard'
@@ -31,13 +31,12 @@ def main(cmd_line_args):
 
     # Check Capella API status
     if cappella_api.api_status().status_code == 200:
-        capella_api_response = cappella_api.create_project(dict(name=cmd_line_args.projectName))
-        if capella_api_response.status_code == 201:
+        capella_api_response = cappella_api.delete_project(cmd_line_args.projectID)
+        if capella_api_response.status_code == 204:
             # Our project was created
-            print("Created project " + cmd_line_args.projectName + " with ID of "
-                  + capella_api_response.json()['id'])
+            print("Deleted project with ID " + cmd_line_args.projectID)
         else:
-            print("Failed to create project " + cmd_line_args.project)
+            print("Failed to delete project with ID " + cmd_line_args.projectID)
             print("Capella API returned " + str(capella_api_response.status_code))
             print("Full error message")
             print(capella_api_response.json()["message"])
@@ -49,19 +48,19 @@ def main(cmd_line_args):
 if __name__ == '__main__':
     # Process command line args
     # Create the parser
-    my_parser = MyParser(description='create a project in Couchbase Capella')
-    my_parser.ExampleCmdline = """Create new project:  -n "My new project"\n
-    With debug on -p "My new project" -d """
+    my_parser = MyParser(description='Deletes a project from Couchbase Capella')
+    my_parser.ExampleCmdline = '-pid e50323f2-2c1c-4506-8234-504d5332f400 \n ' \
+                               'With debug  -pid e50323f2-2c1c-4506-8234-504d5332f400 -d'
 
     # Add the arguments
 
-    my_parser.add_argument('-pn', '--projectName',
-                           dest='projectName',
+    my_parser.add_argument('-pid', '--projectID',
+                           dest="projectID",
+                           metavar="",
                            action='store',
                            required=True,
-                           type=str,
-                           metavar="",
-                           help='Name of the project to create')
+                           type=check_if_valid_uuid,
+                           help='ID of the project to delete.  Must be a valid unique identifier.')
 
     my_parser.add_argument("-d", "--debug",
                            default=False,
