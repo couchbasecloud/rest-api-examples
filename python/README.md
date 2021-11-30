@@ -1,7 +1,6 @@
 # Examples of using Public API with Python  
 Here we have a selection of Python3 scripts that shows each of the Public APIs being used.  These are not exhaustive and are definitely _not_ for production use.  They are merely here to get you started and, hopefully, to inspire you to come up with interesting ways to use the Public API that we've created.   
 
-
 ## Prerequisites
 The following pieces need to be in place before you try the samples :-
 

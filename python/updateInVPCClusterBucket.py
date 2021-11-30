@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 # Generic/Built-in
 import base64
 
