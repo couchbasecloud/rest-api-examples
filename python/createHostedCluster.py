@@ -4,7 +4,6 @@
 
 # Other Libs
 
-
 # Owned
 from capellaAPI.CapellaAPICommon import MyParser
 from capellaAPI.CapellaAPICommon import capella_logging
