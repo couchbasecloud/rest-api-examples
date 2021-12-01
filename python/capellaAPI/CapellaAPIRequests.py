@@ -42,10 +42,10 @@ class CapellaAPIRequests:
         # handles http requests - GET , PUT, POST, DELETE
         # to the Couchbase Cloud APIs
         # Read the values from the environmental variables
-        if os.environ.get('api_base_url') is None:
-            raise MissingBaseURLError('Environmental variable api_base_url has not been set')
+        if os.environ.get('CBC_BASE_URL') is None:
+            raise MissingBaseURLError('Environmental variable CBC_BASE_URL has not been set')
         else:
-            self.API_BASE_URL = os.environ.get('api_base_url')
+            self.API_BASE_URL = os.environ.get('CBC_BASE_URL')
 
         self._log = logging.getLogger(__name__)
 
