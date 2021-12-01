@@ -39,15 +39,15 @@ class CapellaAPIAuth(AuthBase):
         # :param str secret_key: secret key for Couchbase Cloud
 
         # Read the values from the environmental variables
-        if os.environ.get('cbc_access_key') is None:
+        if os.environ.get('CBC_ACCESS_KEY') is None:
             raise MissingAccessKeyError
         else:
-            self.ACCESS_KEY = os.environ.get('cbc_access_key')
+            self.ACCESS_KEY = os.environ.get('CBC_ACCESS_KEY')
 
-        if os.environ.get('cbc_secret_key') is None:
+        if os.environ.get('CBC_SECRET_KEY') is None:
             raise MissingSecretKeyError
         else:
-            self.SECRET_KEY = os.environ.get('cbc_secret_key')
+            self.SECRET_KEY = os.environ.get('CBC_SECRET_KEY')
 
     def __call__(self, r):
         # r = request itself

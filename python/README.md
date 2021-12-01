@@ -35,9 +35,9 @@ Next, set the environment variables for the base URL for Cloud API , access and 
 replace <> by your values for secret and access keys.
 
 ```
-export cbc_base_url='https://cloudapi.cloud.couchbase.com'
-export cbc_secret_key='<>'
-export cbc_access_key='<>'
+export CBC_BASE_URL='https://cloudapi.cloud.couchbase.com'
+export CBC_SECRET_KEY='<>'
+export CBC_ACCESS_KEY='<>'
 ```
 
 If you don't want use environment variables, you can store these in a file. 
@@ -50,14 +50,14 @@ In the capellaAPI folder, create EnvVars.py file and put in the values for acces
 import os
 
 # API URL
-os.environ['api_base_url'] = 'https://cloudapi.cloud.couchbase.com'
+os.environ['CBC_BASE_URL'] = 'https://cloudapi.cloud.couchbase.com'
 
 
 # Access key
-os.environ['cbc_access_key'] = ' '
+os.environ['CBC_ACCESS_KEY'] = ' '
 
 # Secret key
-os.environ['cbc_secret_key'] = ' '
+os.environ['CBC_SECRET_KEY'] = ' '
 
 ```
 
