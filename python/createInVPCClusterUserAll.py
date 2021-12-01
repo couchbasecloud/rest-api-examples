@@ -49,7 +49,7 @@ def main(cmd_line_args):
 
     # Check Capella API status
     if capella_api.api_status().status_code == 200:
-        capella_api_response = capella_api.create_cluster_user(cmd_line_args.ClusterID, cluster_user_struct)
+        capella_api_response = capella_api.create_cluster_user(False, cmd_line_args.ClusterID, cluster_user_struct)
 
         if capella_api_response.status_code == 201:
             print("Cluster user is being created")

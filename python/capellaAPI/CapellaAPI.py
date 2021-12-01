@@ -221,9 +221,14 @@ class CapellaAPI(CapellaAPIRequests):
         return (capella_api_response)
 
     # Cluster user
-    def create_cluster_user(self, cluster_id, cluster_user_configuration):
-        capella_api_response = self.capella_api_post('/v2/clusters' + '/' + cluster_id +
+    def create_cluster_user(self,hosted_cluster, cluster_id, cluster_user_configuration):
+        if not hosted_cluster:
+            capella_api_response = self.capella_api_post('/v2/clusters' + '/' + cluster_id +
                                                      '/users', cluster_user_configuration)
+        else:
+            capella_api_response = self.capella_api_post('/v3/clusters' + '/' + cluster_id +
+                                                         '/users', cluster_user_configuration)
+
         return (capella_api_response)
 
     # Capella Users

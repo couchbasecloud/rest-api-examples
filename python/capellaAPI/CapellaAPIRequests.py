@@ -84,6 +84,7 @@ class CapellaAPIRequests:
         cbc_api_response = None
 
         self._log.info(api_endpoint)
+        self._log.debug("Request body: " + str(request_body))
 
         try:
             cbc_api_response = self.network_session.post(self.API_BASE_URL + api_endpoint,
@@ -106,6 +107,7 @@ class CapellaAPIRequests:
         cbc_api_response = None
 
         self._log.info(api_endpoint)
+        self._log.debug("Request body: " + str(request_body))
 
         try:
             cbc_api_response = self.network_session.put(self.API_BASE_URL + api_endpoint,
@@ -128,6 +130,7 @@ class CapellaAPIRequests:
         cbc_api_response = None
 
         self._log.info(api_endpoint)
+        self._log.debug("Request body: " + str(request_body))
 
         try:
             if request_body is None:
