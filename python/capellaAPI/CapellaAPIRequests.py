@@ -10,9 +10,9 @@ import pprint
 
 
 # Owned
-from capellaAPI.CapellaAPIAuth import CapellaAPIAuth
-from capellaAPI.CapellaExceptions import MissingBaseURLError, MissingAccessKeyError, \
-    MissingSecretKeyError, GenericHTTPError
+from .CapellaAPIAuth import CapellaAPIAuth
+from .CapellaExceptions import MissingBaseURLError, MissingAccessKeyError, \
+    MissingSecretKeyError, GenericHTTPError, CbcAPIError
 
 # EnvVars.py sets the environmental variables used here
 # If EnvVars.py does not exist, then we'll try the OS environment variables instead
@@ -78,7 +78,14 @@ class CapellaAPIRequests:
             self._log.debug(f"Missing Access Key environment variable")
             print("Missing Access Key environment variable")
 
+        # Grab any other exception and send to our generic exception
+        # handler
+        except Exception as e:
+            raise CbcAPIError(e)
+
+
         return (cbc_api_response)
+
 
     def capella_api_post(self, api_endpoint, request_body):
         cbc_api_response = None
@@ -101,7 +108,13 @@ class CapellaAPIRequests:
         except MissingSecretKeyError:
             print("Missing Access Key environment variable")
 
+        # Grab any other exception and send to our generic exception
+        # handler
+        except Exception as e:
+            raise CbcAPIError(e)
+
         return (cbc_api_response)
+
 
     def capella_api_put(self, api_endpoint, request_body):
         cbc_api_response = None
@@ -125,6 +138,7 @@ class CapellaAPIRequests:
             print("Missing Access Key environment variable")
 
         return (cbc_api_response)
+
 
     def capella_api_del(self, api_endpoint, request_body=None):
         cbc_api_response = None
@@ -150,6 +164,11 @@ class CapellaAPIRequests:
 
         except MissingSecretKeyError:
             print("Missing Access Key environment variable")
+
+        # Grab any other exception and send to our generic exception
+        # handler
+        except Exception as e:
+            raise CbcAPIError(e)
 
         return (cbc_api_response)
 

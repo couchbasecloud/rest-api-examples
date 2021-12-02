@@ -5,7 +5,7 @@ import logging
 # Other Libs
 
 # Owned
-from capellaAPI.CapellaAPIRequests import CapellaAPIRequests
+from .CapellaAPIRequests import CapellaAPIRequests
 
 __author__ = 'Jonathan Giffard'
 __copyright__ = 'Copyright 2021, Couchbase'

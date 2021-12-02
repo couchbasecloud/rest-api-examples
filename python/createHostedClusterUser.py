@@ -80,6 +80,7 @@ def main(cmd_line_args):
 
         if capella_api_response.status_code == 201:
             print("Cluster user is being created")
+            print("Check status here:- " + capella_api_response.headers['Location'])
         else:
             print("Failed to create user")
             print("Capella API returned " + str(capella_api_response.status_code))
