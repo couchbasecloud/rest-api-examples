@@ -95,7 +95,8 @@ def check_bucket_and_scope_type(bucket_and_scope_access_list):
     # We should have a string like this <bucket name>:<bucket access rw, r or w>
     # our regex to check that we've got the right format
     # hate these btw
-    regex_for_bucket_and_scope_access = r'(^[a-zA-Z0-9]+[:]+[a-zA-Z0-9_* ]+[:]+[rw])'
+    # CB Server 7x supports more characters for bucket names compared to CB 6x
+    regex_for_bucket_and_scope_access = r'(^[a-zA-Z0-9-._%]+[:]+[a-zA-Z0-9_* ]+[:]+[rw])'
 
     # compile the regex as will we could use it several times
     # and it's quicker in those cases to do this.
