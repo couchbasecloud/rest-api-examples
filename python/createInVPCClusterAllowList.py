@@ -31,12 +31,20 @@ def main(cmd_line_args):
 
     cluster_allowlist_configuration = {
         "cidrBlock": cmd_line_args.CidrBlock,
-        "ruleType": cmd_line_args.RuleType,
+        "ruleType": cmd_line_args.RuleType.lower(),
 
     }
 
-    if cmd_line_args.RuleType == 'temporary':
+    if cmd_line_args.RuleType.lower() == 'temporary':
         cluster_allowlist_configuration["duration"] = str(cmd_line_args.Duration) + "h0m0s"
+
+    if cmd_line_args.RuleType.lower() == 'permanent':
+        # If rule is permanent , Duration should not be given
+        # Will look into seeing if arg parser can deal with this
+        # For now, the check is here
+        if cmd_line_args.Duration is not None:
+            raise AllowlistRuleError("Duration is not a permitted option for allow list when type is permanent")
+
 
     if cmd_line_args.Comment is not None:
         cluster_allowlist_configuration["comment"] = cmd_line_args.Comment
@@ -58,10 +66,10 @@ def main(cmd_line_args):
 
 
 def allow_list_rule_type(rule_type):
-    if rule_type == 'temporary':
-        return (rule_type)
-    elif rule_type == 'permanent':
-        return (rule_type)
+    if rule_type.lower() == 'temporary':
+        return (rule_type.lower())
+    elif rule_type.lower() == 'permanent':
+        return (rule_type.lower())
     else:
         raise AllowlistRuleError(rule_type + " is not a permitted option for allow list rule type")
 
@@ -103,9 +111,8 @@ if __name__ == '__main__':
                            metavar="",
                            action='store',
                            type=int,
-                           default=1,
                            required=False,
-                           help='if temporary, how long in hours. Default = 1')
+                           help='if temporary, how long in hours.')
 
     my_parser.add_argument('-ct', '--Comment',
                            dest="Comment",

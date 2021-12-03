@@ -30,13 +30,13 @@ def main(cmd_line_args):
         capella_logging('info')
 
     bucket_configuration = {
-            "replicas": cmd_line_args.Replicas,
-            "name": cmd_line_args.Name,
-            "memoryQuota": cmd_line_args.MemoryQuota
+            "replicas": cmd_line_args.replicas,
+            "name": cmd_line_args.name,
+            "memoryQuota": cmd_line_args.memory_quota
         }
 
     # Create the bucket
-    capella_api_response = cappella_api.create_cluster_bucket(cmd_line_args.ClusterID, bucket_configuration)
+    capella_api_response = cappella_api.create_cluster_bucket(cmd_line_args.cluster_id, bucket_configuration)
 
     # Check response code , 201 is success
     if capella_api_response.status_code == 201:
@@ -58,24 +58,28 @@ if __name__ == '__main__':
     # Add the arguments
 
     my_parser.add_argument('-cid', '--clusterID',
+                           dest="cluster_id",
                            action='store',
                            required=True,
                            type=check_if_valid_uuid,
                            help='The ID of the cluster')
 
     my_parser.add_argument('-n', '--Name',
+                           dest="name",
                            action='store',
                            required=True,
                            type=str,
                            help='The name of the bucket')
 
     my_parser.add_argument('-r', '--Replicas',
+                           dest="replicas",
                            action='store',
                            type=int,
                            required=True,
                            help='The number of replicas')
 
     my_parser.add_argument('-m', '--MemoryQuota',
+                           dest="memory_quota",
                            action='store',
                            type=int,
                            required=True,
