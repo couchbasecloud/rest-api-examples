@@ -60,7 +60,7 @@ def main(cmd_line_args):
     # Check response code , 201 is success
     if capella_api_response.status_code == 202:
         print("Creating cluster ")
-        print("Check deployment status here: " + cappella_api.api_base_url +
+        print("Check deployment status here: " + cappella_api.API_BASE_URL +
               capella_api_response.headers['Location'] + '/status')
     else:
         print("Failed to create cluster ")

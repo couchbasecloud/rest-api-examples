@@ -10,8 +10,7 @@ import re
 
 
 # Owned
-from capellaAPI.CapellaExceptions import InvalidUuidError
-
+from .CapellaExceptions import *
 
 __author__ = 'Jonathan Giffard'
 __copyright__ = 'Copyright 2021, Couchbase'
@@ -90,3 +89,28 @@ def check_if_valid_uuid(uuid):
         raise InvalidUuidError(uuid + " does not match the format for an unique identifier.")
     else:
         return (uuid)
+
+# Need to check bucket and scopes are valid
+def check_bucket_and_scope_type(bucket_and_scope_access_list):
+    # We should have a string like this <bucket name>:<bucket access rw, r or w>
+    # our regex to check that we've got the right format
+    # hate these btw
+    # CB Server 7x supports more characters for bucket names compared to CB 6x
+    regex_for_bucket_and_scope_access = r'(^[a-zA-Z0-9-._%]+[:]+[a-zA-Z0-9_* ]+[:]+[rw])'
+
+    # compile the regex as will we could use it several times
+    # and it's quicker in those cases to do this.
+
+    compiled_regex = re.compile(regex_for_bucket_and_scope_access)
+
+    # Throw an exception if any entry doesn't meet the regex
+    for entry in bucket_and_scope_access_list.split(','):
+        result = compiled_regex.findall(entry.strip())
+        if not result:
+            raise UserBucketAccessListError(entry + " is not valid.  "
+                                                    "must be <bucket name>:<scope>:<access> where access is r,w or rw.  "
+                                                    "* is not permitted for bucket name.  ")
+
+    return (bucket_and_scope_access_list)
+
+

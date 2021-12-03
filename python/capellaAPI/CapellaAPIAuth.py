@@ -10,7 +10,7 @@ from requests.auth import AuthBase
 # Other Libs
 
 # Owned
-from capellaAPI.CapellaExceptions import *
+from .CapellaExceptions import *
 
 # EnvVars.py sets the environmental variables used here
 # If EnvVars.py does not exist, then we'll try the OS environment variables instead

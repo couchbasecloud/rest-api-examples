@@ -33,38 +33,38 @@ def main(cmd_line_args):
     # Check response code , 200 is success
     if capella_api_response.status_code == 200:
         clusters_table_rows = []
-        cluster_entries = capella_api_response.json()['data']['items']
 
-        # We should have a list of clusters, but just in case, check
-        # Then we will build rows to show in a table
-        if cluster_entries is not None:
-            # Check to see if we got any users back
-            if len(cluster_entries) > 0:
-                cluster_table_heading = ['Environment', 'Name', 'Cluster ID', 'Cloud ID', 'Project ID']
-                for cluster_entry in cluster_entries:
-                    cluster_environment = cluster_entry['environment']
-                    cluster_id = cluster_entry['id']
-                    cluster_name = cluster_entry['name']
-                    project_id = cluster_entry['projectId']
-                    # if the cluster is inVPC, then we will have a cloud ID
-                    if cluster_environment == 'inVpc':
-                        clusterCloudID = cluster_entry['cloudId']
-                    else:
-                        clusterCloudID = 'N/A'
-
-                    # Put the completed row in the table
-                    clusters_table_rows.append([cluster_environment, cluster_name, cluster_id, clusterCloudID, project_id])
-
-                # Display the table, which uses pretty table to make things easier
-                print('Capella Clusters ')
-                print(pretty_table(cluster_table_heading, clusters_table_rows))
-
-            else:
-                print("No users found for this cluster")
+        # There could not be any clusters, lets check if that's the case
+        if capella_api_response.json()['data'] == {}:
+            cluster_entries = None
+            print("No clusters found")
         else:
-            print("No users found for this cluster")
+            cluster_entries = capella_api_response.json()['data']['items']
+
+            # Got a list of clusters, just double check that we do have entries
+
+            cluster_table_heading = ['Environment', 'Name', 'Cluster ID', 'Cloud ID', 'Project ID']
+            for cluster_entry in cluster_entries:
+                cluster_environment = cluster_entry['environment']
+                cluster_id = cluster_entry['id']
+                cluster_name = cluster_entry['name']
+                project_id = cluster_entry['projectId']
+
+                # if the cluster is inVPC, then we will have a cloud ID
+                if cluster_environment == 'inVpc':
+                    clusterCloudID = cluster_entry['cloudId']
+                else:
+                    clusterCloudID = 'N/A'
+
+                # Put the completed row in the table
+                clusters_table_rows.append([cluster_environment, cluster_name, cluster_id, clusterCloudID, project_id])
+
+            # Display the table, which uses pretty table to make things easier
+            print('Capella Clusters ')
+            print(pretty_table(cluster_table_heading, clusters_table_rows))
+
     else:
-        print("Failed to get list of users for this cluster ")
+        print("Failed to get list of clusters ")
         print("Capella API returned " + str(capella_api_response.status_code))
         print("Full error message")
         print(capella_api_response.json()["message"])
